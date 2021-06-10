@@ -1,0 +1,530 @@
+---
+title: "Visualization functionalities"
+author: "Laure Cougnaud"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 5
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Visualization functionalities}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+<style>
+.zoomDiv {
+  opacity: 0;
+  position:fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 50;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 0px 50px #888888;
+  max-height:100%; 
+  overflow: scroll;
+}
+
+.zoomImg {
+  width: 100%;
+}
+</style>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('body').prepend("<div class=\"zoomDiv\"><img src=\"\" class=\"zoomImg\"></div>");
+    // onClick function for all plots (img's)
+    $('img:not(.zoomImg)').click(function() {
+      $('.zoomImg').attr('src', $(this).attr('src'));
+      $('.zoomDiv').css({opacity: '1', width: '60%'});
+    });
+    // onClick function for zoomImg
+    $('img.zoomImg').click(function() {
+      $('.zoomDiv').css({opacity: '0', width: '0%'});
+    });
+  });
+</script>
+
+```{r options, echo = FALSE}
+
+library(knitr)
+opts_chunk$set(
+    echo = TRUE, results = 'markup', warning = FALSE, 
+    # stop document execution if error (not the default)
+    error = FALSE, 
+    message = FALSE, cache = FALSE,
+    fig.width = 8, fig.height = 7,
+    fig.path = "./figures_vignette/",
+    fig.align = 'center')
+options(width = 170)
+# instead of warn = 0 by default
+# include warnings when they occur in the document
+options(warn = 1)
+
+```
+
+This vignette focuses on the visualization functionalities available within the
+`inTextSummaryTable` package.
+
+If you need to see figures bigger, just click on a graphic, and it will pop up
+more readable.
+
+Summary statistics can be visualized by:
+
+1. **extracting the summary statistics table** with the
+  `computeSummaryStatisticsTable` function (used for `getSummaryStatistics`
+  function)
+2. **visualizing the summary statistics via the `subjectProfileSummaryPlot`**
+  function
+  
+By default the **`subjectProfileSummaryPlot`** plots the mean values with
+**error bars** based on standard errors.
+
+Moreover, the `subjectProfileSummaryPlot` allows the possibility to add a table
+of counts of the number of subject for a specific combination of variables.
+
+This vignette will guide the user to
+
+* default **visualizations for A4 and presentation documents**
+* **customize palettes of colors, shape, linetypes**
+* **visualization with and without table of counts and by facets**
+* general customizable input
+
+However, in order to get a full overview of the functionalities the
+documentation is available in the console with `? subjectProfileSummaryPlot`.
+
+We will first create example data sets to show how the exporting functionalities
+work. The data sets used here are available in the `clinUtils` package.
+
+
+# Load packages and data
+
+```{r loadPackages}
+
+library(inTextSummaryTable)
+library(clinUtils)
+library(pander)
+
+```
+
+```{r loadData}	
+
+# load example data
+data(dataADaMCDISCP01)
+
+dataAll <- dataADaMCDISCP01
+labelVars <- attr(dataAll, "labelVars")
+
+```
+  
+# Compute summary statistics  
+  
+Below we compute summary statistics for the laboratory data set.
+  
+```{r visualization-extractData}
+
+dataLB <- subset(dataAll$ADLBC, grepl("Baseline|Week", AVISIT))
+dataLB$AVISIT <- with(dataLB, reorder(trimws(AVISIT), AVISITN))
+dataLB$TRTA <- with(dataLB, reorder(TRTA, TRTAN))
+
+summaryTableDf <- computeSummaryStatisticsTable(
+    data = dataLB,
+    var = "AVAL",
+    rowVar = c("PARCAT1", "PARAM"),
+    colVar = c("TRTA", "AVISIT")
+)
+
+```
+
+# Visualization for A4 document
+
+The code below shows the default visualization, which plots the **mean with
+standard errors** **suitable for an A4 document**, e.g. Word/pdf.
+
+Note that the table below the plot is based on the counts for treatment and
+visit variables, as specificed in the `colVar` argument of the code chuck above
+for `computeSummaryStatisticsTable`.
+
+```{r visualization-a4document}
+
+# create the plot
+dataPlot <- subset(
+    summaryTableDf, 
+    !isTotal &
+     PARAM == "Alanine Aminotransferase (U/L)"
+)
+
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN"
+)
+
+```
+
+# Visualization for presentation
+
+The code below shows the default visualization **suitable for a
+presentation**, either in Powerpoint or ioslides.
+
+```{r visualization-presentation}
+
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+```
+
+Please note that the default font for presentation is _Tahoma_. 
+
+If you don't have this default font available, 
+the R package [_extrafont_](https://cran.r-project.org/package=extrafont)
+might be useful to register fonts with your R graphics device.
+
+# Palettes
+
+The `inTextSummaryTable` uses default palettes available in the
+`clinUtils` package.
+
+However, palettes are fully customizable. Currently, there are two alternative
+approaches to change the defaults:
+
+* set the custom palettes as arguments in the `subjectProfileSummaryPlot`
+  via the dedicated parameters **`colorPalette`**, **`shapePalette`**,
+  **`linetypePalette`**
+* set the **global options** into the R session.
+
+Passing input arguments to the function might be convenient when creating one
+plot.
+
+Instead, **passing the global options is very handy when creating multiple
+graphics**, so that the palettes have to be set only once at the beginning of
+the R script, without the need to copy-paste input arguments in the
+different visualizations.
+
+If you want to **know more about aesthetics options of the
+`inTextSummaryTable`**, there is a dedicated vignette available
+[here](../doc/inTextSummaryTable-aesthetics.html)) or with
+
+```{r getVignetteAesthetics, eval = FALSE}
+
+vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
+
+```
+
+If you want to **know more about default options from the
+`clinUtils`**, you may check out the vignette of the package:
+
+```{r getVignetteClinUtils, eval = FALSE}
+
+vignette("clinUtils-vignette", "clinUtils")
+
+```
+
+Sections below show below both alternative approaches for setting the palettes. 
+
+## Custom palettes via arguments in the function
+
+In this section we guide on how to set custom palettes via the
+`subjectProfileSummaryPlot` function.
+
+### Color palette
+
+This section focuses on the possibility to set the `colorPalette` argument.
+
+```{r visualization-customColorFromArgument}
+
+# custom color palette by setting a named vector of colors
+customColorPalette <- c(
+    `Xanomeline Low Dose` = "green",
+    `Xanomeline High Dose` = "red",
+	`Placebo` = "blue"
+)
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    colorPalette = customColorPalette,
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+```
+
+### Shape and linetype palettes
+
+This section focuses on the possibility to set the `shapePalette` and
+`linetypePalette` arguments.
+
+```{r visualization-customShapeFromArgument}
+
+# custom shape palette
+customShapePalette <- c(15, 17, 19)
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    shapePalette = customShapePalette,
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+# custom linetype palette
+customLinetypePalette <- c("twodash", "dotted", "longdash")
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    linetypePalette = customLinetypePalette,
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+```
+
+## Custom palettes via setting global options
+
+The `inTextSummaryTable` package allows the user to define global options in
+the R session.
+
+As mentioned above, setting the global options is convenient because the
+palettes have to be set only once in the R script or Rmd document.
+
+Please note that the global options have to be set **after** loading the
+package. This because when loading the package, the default global options
+for palettes will overwrite the custom palettes.
+
+Here in practice:
+
+```{r exampleLoadingPackageAndOptions, eval = FALSE}
+
+# this is OK
+library(inTextSummaryTable)
+options(inTextSummaryTable.colors.plot = customColorPalette)
+
+# this does NOT set your custom palette
+options(inTextSummaryTable.colors.plot = customColorPalette)
+library(inTextSummaryTable)
+
+```
+
+### Coloring palettes
+
+Color palettes can be set up with the `inTextSummaryTable.colors.plot` option.
+
+```{r visualization-customColorFromOptions}
+
+# custom color palette by setting a simple vector of colors
+customColorPalette <- c("blue", "green", "orange")
+options(inTextSummaryTable.colors.plot = customColorPalette)
+
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+# custom color palette by setting a named vector of colors
+customColorPalette <- c(
+    `Xanomeline Low Dose` = "green",
+    `Xanomeline High Dose` = "red",
+	`Placebo` = "purple"
+)
+options(inTextSummaryTable.colors.plot = customColorPalette)
+
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+```
+
+### Shape and linetype palettes
+
+What shown for the color palette is consistent for shape and linetypes
+palettes. In this case, the global options are called
+`inTextSummaryTable.shapes.plot` and `inTextSummaryTable.linetypes.plot`.
+
+```{r visualization-customShapeFromOptions}
+
+# custom shape palette
+customShapePalette <- c(17, 19, 22)
+options(inTextSummaryTable.shapes.plot = customShapePalette)
+
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+# custom linetype palette
+customLinetypePalette <- c("dotted", "longdash", "solid")
+options(inTextSummaryTable.linetypes.plot = customLinetypePalette)
+
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+```
+
+## Set back default palettes
+
+There is always to possibility to switch back to the default palettes of the
+package:
+
+```{r visualization-backDefaultPalettes}
+
+options(inTextSummaryTable.colors.plot = clinColors)
+options(inTextSummaryTable.shapes.plot = clinShapes)
+options(inTextSummaryTable.linetypes.plot = clinLinetypes)
+
+```
+
+# Visualization without count table
+
+The user can decide to remove the table of counts by setting the parameter
+**`tableText`** to `NULL`, as the code below shows.
+
+```{r visualization-table}
+
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = NULL,
+    style = "presentation"
+)
+
+```
+
+
+# Visualization by facets
+
+It is possible to directly plot multiple parameters with the **`facetVar`**
+argument.
+
+Please note that setting the `facetVar` is not compatible with adding a table
+of counts underneath the plot.
+
+```{r visualization-facets, out.width = "100%", fig.height = 9, fig.width = 9}
+
+# create the plot
+dataPlotFacets <- subset(
+    summaryTableDf, 
+    !isTotal &
+        PARAM %in% c(
+            "Alanine Aminotransferase (U/L)",
+            "Albumin (g/L)",
+            "Bilirubin (umol/L)",
+            "Calcium (mmol/L)"
+        )
+)
+
+subjectProfileSummaryPlot(
+    data = dataPlotFacets,
+    xVar = "AVISIT",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    facetVar = c("PARCAT1", "PARAM"),
+    useLinetype = TRUE
+)
+
+```
+
+# Customize your visualization
+
+The `subjectProfileSummaryPlot` has many options! A non-exaustive demonstration
+is presented below.
+
+```{r visualization-otherInputs}
+
+# plot the median instead of mean
+# no error bars
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    meanVar = "statMedian",
+    seVar = NULL,
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+# plot the mean with standard deviation
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    seVar = "statSD",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+# change labels
+subjectProfileSummaryPlot(
+    data = dataPlot,
+    xVar = "AVISIT",
+    xLab = "Time points",
+    yLab = "Mean and Standard Errors",
+    title = "Title of the plot",
+    colorVar = "TRTA",
+    labelVars = labelVars,
+    useLinetype = TRUE,
+    tableText = "statN",
+    style = "presentation"
+)
+
+```
+
+# Appendix
+
+## Session information
+
+```{r includeSessionInfo, echo = FALSE}
+
+pander(sessionInfo())
+
+```

@@ -1,0 +1,213 @@
+---
+title: "Advanced user in-text tables"
+author: "Laure Cougnaud"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 5
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Advanced user of in-text tables}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+In this vignette we focus on providing more explanation on how
+the `inTextSummaryTable` package actually works. We would describe some of the
+functionalities less exposed to the users.
+
+We assume you are already familiar on how to create and export tables, otherwise
+we advise to first check out the dedicated vignettes for creating and
+exporting tables. The vignettes are accessible with the commands below.
+
+```{r getVignette, eval = FALSE}
+
+vignette("inTextSummaryTable-createTables", "inTextSummaryTable")
+vignette("inTextSummaryTable-exportTables", "inTextSummaryTable")
+
+```
+
+We will first create example data sets to show how the exporting functionalities
+work. The data sets used are available in the `clinUtils` package.
+
+
+```{r options, echo = FALSE}
+
+library(knitr)
+opts_chunk$set(
+    echo = TRUE, results = 'markup', warning = FALSE, 
+    # stop document execution if error (not the default)
+    error = FALSE, 
+    message = FALSE, cache = FALSE,
+    fig.width = 8, fig.height = 7,
+    fig.path = "./figures_vignette/",
+    fig.align = 'center')
+options(width = 170)
+# instead of warn = 0 by default
+# include warnings when they occur in the document
+options(warn = 1)
+
+```
+
+```{r loadPackages}
+
+library(inTextSummaryTable)
+library(clinUtils)
+library(pander)
+library(tools) # toTitleCase
+
+```
+
+```{r loadData}	
+
+# load example data
+data(dataADaMCDISCP01)
+
+dataAll <- dataADaMCDISCP01
+labelVars <- attr(dataAll, "labelVars")
+
+```
+
+
+```{r}
+
+dataAE <-  subset(dataAll$ADAE, SAFFL == "Y" & TRTEMFL == "Y")
+dataAEInterest <- subset(dataAE, AESOC %in% c(
+        "INFECTIONS AND INFESTATIONS",
+        "GENERAL DISORDERS AND ADMINISTRATION SITE CONDITIONS"
+    )
+)
+
+# ensure that order of elements is the one specified in 
+# the corresponding numeric variable
+dataAEInterest$TRTA <- reorder(dataAEInterest$TRTA, dataAEInterest$TRTAN)
+dataAEInterest$AESEV <- factor(dataAEInterest$AESEV, levels = c("MILD", "MODERATE"))
+
+dataTotalAE <- subset(dataAll$ADSL, TRT01A != "Placebo")
+# should contain columns specified in 'colVar'
+dataTotalAE$TRTA <- dataTotalAE$TRT01A 
+
+
+```
+
+# Detailed framework of the creation of the in-text table
+
+The `getSummaryStatisticsTable` consists of the following framework:
+
+* **computation of the summary statistics** table with the
+  **`computeSummaryStatisticsTable`** function
+* **export of the table** to the required format with the **`outputType`**
+  parameter
+
+## Computation of the summary statistics
+
+The supporting data for the summary statistics table, is accessed via the
+**`computeSummaryStatisticsTable`**. This includes the entire set of
+statistics (as numeric) and combined statistic set.
+
+The output from the `computeSummaryStatisticsTable` is equivalent of the table
+output by the `getSummaryStatisticsTable` function when the `outputType` is set
+to 'data.frame-base'.
+
+```{r computeSummaryStatisticsTable}
+
+summaryTable <- computeSummaryStatisticsTable(
+    data = dataAEInterest,
+    rowVar = c("AESOC", "AEDECOD"),
+    rowVarTotalInclude = c("AESOC", "AEDECOD"),
+    colVar = "TRTA",
+    stats = getStats("n (%)"),
+    dataTotal = dataTotalAE,
+    labelVars = labelVars,
+    rowVarLab = c('AESOC' = "TEAE by SOC and Preferred Term\nn (%)")
+)
+
+pander(head(summaryTable, 3))
+
+```	
+
+Please note the presence of the **`isTotal` column**, which flags the records
+containing the number of subjects reported in the table header.
+
+```{r computeSummaryStatisticsTable-isTotal}
+
+pander(subset(summaryTable, isTotal))
+
+```	
+
+## Export table to the requested format
+
+```{r exportSummaryStatisticsTable-flextable}
+
+exportSummaryStatisticsTable(
+	summaryTable = summaryTable,
+	outputType = "flextable"
+)
+
+```	
+
+Please see the vignette: `inTextSummaryTable-exportTables` for more
+information on the different export types available.
+
+# Data pre-processing
+
+The variables used for the row and columns of the summary statistics tables
+should be present in a long format in the input data for the
+`getSummaryStatisticsTable` function.
+s
+In case the grouping of the rows/columns is more complex and no grouping
+variable is yet available in the data, the function `combineVariables` offers
+simpler functionalities to create the input data.
+
+The label for the grouping is extracted from the SAS dataset labels if
+`labelVars` is specified, or can be customized (`label` parameter).
+
+For example, the adverse events are counted for different population set:
+screened population, completer population, only events with high severity, or
+related to the treatment and with high severity.
+
+```{r combineVariables}
+
+# prepare the data: create grouping of interest
+dataAEGroup <- combineVariables(
+    data = dataAEInterest,
+    newVar = "AEGRP",
+    paramsList = list(
+        # for all screened patients
+        list(var = "TRTA", value = "Xanomeline High Dose"),
+        # for moderate severity
+        list(var = "AESEV", value = "MODERATE", labelExtra = "Moderate"),
+        list(var = "AENDY", label = paste("With adverse events ending date"))
+    ),
+    # include also counts for all records
+    includeAll = TRUE,
+    labelAll = "All Adverse events", 
+    labelVars = labelVars
+)
+labelVars["AEGRP"] <- "Patient groups of interest"
+
+# create the table
+getSummaryStatisticsTable(
+    data = dataAEGroup,
+    colVar = "TRTA", 
+    rowVar = "AEGRP", 
+    labelVars = labelVars,
+    dataTotal = dataTotalAE,
+    stats = list(expression(paste0(statN, " (", round(statPercN, 1), ")"))),
+    title = "Table: Adverse events: counts for groups of interest",
+    footer = "Statistics: n (%)"
+)
+
+```
+
+# Appendix
+
+## Session information
+
+```{r includeSessionInfo, echo = FALSE}
+
+pander(sessionInfo())
+
+```

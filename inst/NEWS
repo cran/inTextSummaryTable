@@ -1,0 +1,293 @@
+3.0.0
+  o get palettes from 'clinUtils'
+  o rename 'getFlextable' into 'getListing'
+  o add 'getDimPage'
+  o remove 'roundHalfUp' functionality
+  o add color-blind palette
+  o remove dependency from previous utilityFct package
+  o add 'getLabelVar' as dependency from 'clinUtils'
+  o roundUpText renamed to 'roundHalfUpTextFormat'
+  o roundUp renamed to 'roundHalfUp'
+  o roundUp: remove deprecated parameter 'format'
+  o rename 'roundCustom' to 'roundUp'
+  o add function 'roundCustom'
+  o add function 'getFlextable'
+2.23.0
+  o new fct geomSE
+  o subjectProfileSummaryPlot: new parameter: tablePlotMargin
+2.22.1
+  o unit tests 
+2.22.0
+  o add fontface parameter in 'subjectProfileSummaryTable'
+  o getStats: supports 'mean (sd)' and '(min, max)'
+  o subjectProfileSummaryPlot: 
+    - new parameter: tableYAxisLabs
+    - pass colorLab to subjectProfileSummaryTable
+  o subjectProfileSummaryTable/subjectProfileSummaryPlot: new parameter: legendPosition
+  o subjectProfileSummaryTable: fix display color var categories in correct order
+2.21.1
+  o fix export summary table to DT in case multiple title formatted as HTML
+2.21.0
+  o add unit tests
+  o reorganize introduction vignette, help page for pkg
+  o error if stats if not in correct format
+  o getStats: 'n/N (%)' is named by default for consistency
+  o compute summary statistics table: 
+    - simpler impl for filter fct for var flag
+    - percentage and header total column extracted from 'total' if dataTotalCol if a list
+    - no error if unique stat name is in default stat name
+  o formatting flextable: 
+    - check row var total include
+    - fix in case only one row total
+  o export to flextable:
+    - in separated file if by var is specified
+  o export to DT: 
+    - title can be of length > 1
+    - pageDim should be of length 2
+    - fix when noEscapeVar contains all vars
+  o subject profile summary plot: 
+    - extra checks input params
+    - fix ordering facets in case [x]Line specified
+    - deprecate yLimExpand -> yAxisExpand
+  o subject profile summary table:
+    - fix y-labels when color var is character
+  o compute stats/subject profile (table): simplify stats expr check
+2.20.0
+  o add unit tests
+  o computeSummaryStatisticsTable: more formal checks + warning for var/[row|col]Var...
+  o computeSummaryStatisticsTable: fix in case varLab/rowVarLab/byVarLab not specified for all vars
+  o varSubgroupLab: change default 'variableGroup' -> 'Variable group'
+  o computeSummaryStatisticsTable: rowVarTotalByVar wrong spec: error -> warning, fix in case named charac
+  o computeSummaryStatisticsTableTotal: fix for warnings: 'attributes are not identical across measure variables...', 'cannot avoid coercion of factors...'
+2.19.0
+  o add unit tests
+  o computeSummaryStatistics: fix for data with one column, extra error msg
+  o extension to percentage for records: computeSummaryStatisticsTable: 'statsPerc'; getStats: '%m','m (%)'
+  o computeSummaryStatisticsTable: fix for varFlag & [varInclude0 or varTotalInclude]
+  o computeSummaryStatistics: remove missing values in subjectVar (warning if this occur when var is specified)
+  o computeSummaryStatistics: simplify impl for empty data & cat var + filterEmptyVar TRUE by default for cat variable
+  o computeSummaryStatisticsTable: varInclude0 extended for subset of var
+2.18.0
+  o exportSummaryStatisticsTableToDT: extend for expandVar/rowVarInSepCol/colVar
+  o subjectProfileSummaryPlot: xAxisExpand
+2.17.0
+  o improve doc
+  o include unit tests
+  o computeSummaryStatisticsTable: fix when dataTotalPerc is specified but not rowVarTotalPerc
+  o roundCustomText: remove fix if digits is NA
+  o updates for utility pck 2.0.0
+  o internal functions: convertVarFlag
+  o fix error colVar -> colVarTotal in dataTotal
+  o extend 'file' parameter to export to all outputType
+  o computeSummaryStatistics: fix when no cat group is empty and statsExtra is specified
+2.16.0
+  o change imports of color palette from utility to style pkg
+  o change flextable from style to utility pkg
+  o exportSummaryStatisticsTable: specify rowVarLab for DT output
+  o getStatsData: type and extra args for getStats for cat or cont variable separately
+  o same default for rowVarInSepCol (NULL) for DT and flextable output
+2.15.0
+  o varLabInclude/statsLabInclude new parameters
+  o update vignette knitPrintListObjects
+  o subjectProfileSummaryPlot: minVar/maxVar
+2.14.0
+  o roundCustomText: fix when digits is NA
+  o subjectProfileSummaryPlot: yTrans
+  o subjectProfileSummaryPlot: remove 'a' in legend when tableText is used
+  o computeSummaryStatisticsTable: fix order var for charac, or when not complete across colVar + unit tests
+2.13.0
+  o example of greek letter in doc
+  o support custom formatting (superscript, subscript) for footnote
+2.12.0
+  o getStatsData: extend type to any type available in getStats
+  o convertSummaryStatisticsTableToFlextable: fix padding header when multiple titles are provided
+  o formatSummaryStatisticsTable: fix when no total row
+  o computeSummaryStatistics: fix for R 4.0.0 stringsAsFactors = FALSE
+  o getStats: add 'n/N (%)'
+2.11.0
+  o deprecate 'format' argument in 'roundCustomText'
+  o modify 'formatPercentage' function to assure that percentages have the same number of decimals
+  o include total counts per group with: 'var' set to 'all'
+  o conversion to flextable: varTotalInSepRow works for mixed table
+  o formatSummaryStatisticsTableFlextable: fix for extraction total when rowVar specified + fix extraction total rows
+  o getStatisticsSummaryStatisticsTable: fix for order stats when different stats by variable
+2.10.0
+	o modify default legend in subjectProfileSummaryTable to substitute the 'a' with the point
+	o substitute 'expand_scale' with 'expansion' in subjectProfileSummaryTable only for ggplot2 >= 3.3
+  o unit test update for ggplot2 3.3.0
+  o subjectProfilePlot: remove 'tableLabel' (not used)
+2.9.0
+    o remove '%' sign next to percentage in 'formatPercentage'
+    o modified 'getStats': when percentage is 100 it is not shown
+    o add unit tests for 'formatPercentage'
+    o add unit tests for 'getStats'
+    o formatSummaryStatisticsTable: check if multiple records in same row/col, check if only one 'stats' and no names
+    o computeSummaryStatistics: error when multiple different records for same subject for cont var + unit test
+    o exportSummaryStatisticsTableToFlextable: fix when empty df after filter total rows
+    o fix for flextable >= 0.5.9: 'display' -> 'compose'
+    o rowOrderCatLast: NULL by default, used if rowVar is factor and rowOrder is function
+    o computeSummaryStatisticsTable: fix when more columns in dataTotalRow than in data
+    o subjectProfileSummaryTable: export, fix when colorVar is not factor
+2.8.0
+    o fix when 'variable' in 'colVar' when no other col vars
+2.7.0
+    o 'variable' can be included in 'colVar'
+    o add text for explanation of 'rowVar' in 'computeSummaryStatisticsTable()'. Minor changes (e.g. typos) in the vignette.
+    o computeSummaryStatisticsTableTotal: fix in case rowVarTotalPerc is a factor
+2.6.0
+    o subjectProfileSummaryPlot: xGap/xGapDiffNew new param
+    o computeSummaryStatisticsTable: fix for varFlag when only one variable is specified
+2.5.2
+    o getStats: fix formatPercentage default (conflict with DT::formatPercentage)
+2.5.1
+    o formatSummaryStatisticsTable: statistics in column with categorical variables is possible
+    o exportSummaryStatisticsTableToDT: remove: '.id' if no rowVar
+2.5.0
+    o getStats: base statistics available in: 'type'
+    o getStats: fix for custom formatPercentage function
+2.4.0
+    o export to DT: fix rowVarInSepCol <-> labelVars spec, pageLength not specified by default
+    o rowVarInSepCol default: NULL for flextable, rowVar otherwise
+    o outputType: 'data.frame-base'
+    o fix when one statistic and statistics in columns
+    o parameters can be passed to the toDT function
+    o DT output: numeric column if present (for filter box)
+2.3.1
+    o getStatisticsSummaryStatisticsTable: stats: support simple list by variable
+    o computeSummaryStatisticsTable: sort variable/variableGroup before stats in output
+2.3.0
+    o extend package to DT output (reorganize format/convert/export steps)
+    o computeSummaryStatisticsTable: ddply -> by (base R) to fix issue: names' attribute must be the same length as the vector
+2.2.0
+    o possibility to have cells in bold
+2.1.2
+    o rowOrder as a function: fix when row total is included
+    o introductory vignette: additional example for rowOrder
+2.1.1
+    o example of the exportSummaryStatisticsTable function in the vignette
+2.0.1
+    o computeSummaryStatisticsTable: fix for column header in case dataset for total columns is specified
+    o getStats: fix documentation: 'mean (se)'
+2.0.0
+    o include vignette with template tables
+    o formatSummaryStatisticsTable: fixes when multiple records for total (rowVarTotalByVar)
+    o computeSummaryStatisticsTable: possibility to sort rows per total but not include total column
+    o convertVarFlag, varFlag
+    o varInclude0: to include empty rows for count variable
+    o computeSummaryStatisticsTable: possibility to specify varSubgroupLab even for one variable
+    o subjectProfileSummaryPlot: fix facet specification
+    o internal functions
+1.8.0
+    o flextable functions moved to the style pkg
+1.7.0
+    o computeSummaryStatisticsTable: varIncludeTotal -> varTotalInclude, possibility to include total only for a variable
+    o computeSummaryStatisticsTable: varTotalInSepRow new parameter
+    o include total per variable at the first row
+    o getStats: median\n(range) and includeName
+    o vignette: update demographic table + add example summary adverse events table
+1.6.0
+    o example datasets moved to the utility pkg
+    o roundCustom -> roundCustomText 
+1.5.0
+    o convertSummaryStatisticsTableToFlextable: title for each element of byVar
+1.4.0
+    o computeSummaryStatistics: dataTotalCol new param
+1.3.0
+    o computeSummaryStatisticsTable: dataTotalRow
+    o get/computeSummaryStatisticTable: message and return NULL if no data
+    o computeSummaryStatisticsTable: rowOrderCatLast
+    o convertSummaryStatisticsTableToFlextable: doesn't merge rows with different padding (e.g. row header and row content)
+    o formatSummaryStatisticsTable: rowVarFormat (to include row variable in bold)
+    o get[]Flextable: set top/bottom padding to 0
+1.2.1
+    o getNDecimals: fix when NA value, new: getMaxNDecimals
+    o convertSummaryStatisticsTableToFlextable: format superscript/subscript in title
+    o formatSummaryStatisticsTable: statsVar input param
+1.2.0
+    o subjectProfileSummaryPlot: possibility to pass any parameters for geom_text_repel and list of expression/horizontal and vertical adjustments for label
+1.1.0
+    o createFlextableWithHeader: fix in case no headerDf and ft are specified
+    o convertSummaryStatisticsTableToFlextable: remove line on top title
+    o subjectProfileSummaryPlot: themeIncludeVerticalGrid, vLine, fix table when only one value in x-axis
+    o subjectProfileSummaryPlot: fix when xVar is numeric and xAxisLabs not specified, multiple byVar, 
+    o subjectProfileSummaryPlot: sizeLine also used for the error bars, default textSize depends on fontsize
+    o computeSummaryStatisticsTable: fix when no data, include 'statPercTotalN' column, ggExtra
+    o subjectProfileSummaryPlot: fix table n subjects when axes labs too big
+    o getStatisticsSummaryStatisticsTable: fix in case order statsVarInit and names(stats) different
+1.0.0
+    o fix getStats
+    o formatSummaryStatisticsTable: remove 'Statistics' column if all the same
+    o getNDecimals
+    o getColorTable/colorTable parameter, pageDim parameter
+    o subjectProfileSummaryPlot: themeFct parameter, remove box and grid lines for table
+    o computeSummaryStatisticsTable: fix for multiple variables in byVar
+    o exportFlextableToDocx: breaksAfter
+    o convertSummaryStatisticsTableToFlextable: remove fixed width for statistic column
+    o getStats: summary add SE
+0.0.10
+    o formatSummaryStatisticsTable: fix for rowSubtotalInSepRow
+    o rowAutoMerge, rowVarTotalPerc, rowVarTotalExtra
+    o formatSummaryStatisticsTable: remove 'Statistic' if only one statsVar specified and not named
+    o standardize 'Lab' parameters
+    o standardize row total specification: rowVarTotalInclude/rowVarSubtotalInclude -> rowVarTotalInclude, rowSubtotalInSepRow -> rowVarTotalInSepRow
+    o remove border in title, minimal h/v lines: only per row/column group, merge header columns for total and if needed
+    o subscript supported: formatSuperscriptToFlextable -> formatSuperSubscriptToFlextable
+    o vline parameter and default no vertical lines
+    o fix use use rowPadBase
+0.0.9
+    o statsValueLab, dataTotalPerc, colVarTotal, colVarTotalPerc new parameters
+    o export exportFlextableToDocx
+    o se, cv, geomMean, geomSD, geomCV function
+    o reduce height header and footer
+0.0.8
+    o exportSummaryStatisticsTable: create directory of file if not present
+    o createFlextableWithHeader: correct order if multiple title
+    o export convertSummaryStatisticsTableToFlextable function
+    o export to file in convertSummaryStatisticsTableToFlextable
+    o colHeaderTotalInclude, statsExtra parameter
+0.0.7
+    o subjectProfileSummaryPlot: fixes xAxisLabs specification with jitter x-axis
+    o computeSummaryStatistics: fix for order colVar in case total colum included
+    o set font presentation to Tahoma and default font size
+    o fix test roundCustom
+0.0.6
+    o getSummaryStatisticsTable: remove sub-total statistics if all nested vars are missing
+    o computeSummaryStatisticsByRowColVar: doesn't propagate NA for interaction of row/colVar variables
+    o computeSummaryStatisticsTable: support combine use of colTotalInclude with rowTotalInclude or rowSubtotalInclude
+    o new parameter: style
+    o convertSummaryStatisticsTableToFlextable: format superscript inside table to flextable
+    o new function: get[]Flextable
+    o subjectProfileSummaryPlot: xAxisLabs, byVar, table, hLine
+    o [row|col]VarDataLevels
+    o re-label all statistics with 'stat' and attributes in 'summaryTable' slot
+    o combineVariables: fix in case empty input data
+0.0.5
+    o roundCustom: format parameter, 'text' by default
+    o set empty label for when variable specified for count tablee
+    o set empty title by default
+    o formatSummaryStatisticsTable: merge row if only one element
+    o set rowPadBase to 4
+    o horizontal lines: remove horizontal lines in statsLayout is 'row'
+    o subjectProfileSummaryPlot: seVar optional
+    o compute/export[SummaryStatisticsTable]: add defaults for attributes summaryTable
+0.0.4
+    o statsLayout parameter
+    o remove Percm (percentage of records based on dataTotal)
+    o byVar and getAttribute function
+    o example mock-up table in vignette
+0.0.3
+    o convertVarToFactorWithOrder: remove warning in case only one row variable is specified and add check if otherVars is of length 1
+    o additional example vignette: combineVars, function for rowOrder
+0.0.2
+    o add tests
+    o consistent functions naming: computeSummaryStatistics -> computeSummaryStatisticsTable, getSummaryStatistics -> computeSummaryStatistics
+    o subjectProfileSummaryPlot: fix for 'useLinetype'
+    o formatSummaryStatisticsTable: fix issue padding in case statistic is a character
+    o computeSummaryStatisticsTable: fix in case rowVar is a factor and rowTotalInclude, new parameter: colTotalInclude
+    O new parameter: rowSubtotalInclude
+    o new function: combineVariables
+    o functionalities to order rows with convertVarToFactorWithOrder
+    o computeSummaryStatisticsTable and new computeSummaryStatisticsByRowColVar: include 0 counts
+    o include mixed table, multiple variables
+0.0.1
+    o initial commit

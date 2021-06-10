@@ -1,0 +1,174 @@
+---
+title: "Introduction to the `inTextSummaryTable` package"
+author: "Laure Cougnaud"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: 
+  rmarkdown::html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 5
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Introduction to the inTextSummaryTable package}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+# Introduction
+
+```{r options, echo = FALSE}
+	
+	library(knitr)
+	opts_chunk$set(
+		echo = TRUE, results = 'markup', warning = FALSE, 
+		# stop document execution if error (not the default)
+		error = FALSE, 
+		message = FALSE, cache = FALSE,
+		fig.width = 8, fig.height = 7,
+		fig.path = "./figures_vignette/",
+		fig.align = 'center')
+	options(width = 170)
+	# instead of warn = 0 by default
+	# include warnings when they occur in the document
+	options(warn = 1)
+	
+```
+
+The package `inTextSummaryTable` contains functionalities to **create
+complex table of summary statistics or counts of variables of interest**.
+
+This table can be formatted to static
+
+* **in-text table** for a **Clinical Study Report**,
+* a **topline presentation**
+* an **interactive table**, e.g. to be used inside the **medical
+  monitoring report**.
+
+These tables can be included into a `rmarkdown` document which can be
+converted into `html`, `docx` and `pptx`.
+Each table can be separately exported into a `text`, `docx` or `html `document.
+
+We start the guidance to the functionalities of the `inTextSummaryTable`, via
+loading the following packages.
+
+```{r loadPackages}
+
+	library(inTextSummaryTable)
+	library(pander)
+	library(tools) # toTitleCase
+
+```
+
+## Data format
+
+The input data for the creation of summary table should be a **data.frame**,
+usually loaded from a _SAS_ data file (`sas7bdat` format).
+The label of the variables stored in the `SAS` datasets is also used
+for the title or the caption. 
+
+Note that the `loadDataADaMSDTM` function of the `clinUtils` package 
+can be used to import your study-specific dataset(s) of interest into R.
+
+For this vignette, ADaM datasets included in the `clinUtils` package are used.
+
+```{r loadData}	
+	
+	library(clinUtils)
+
+	# load example data
+    data(dataADaMCDISCP01)
+	
+	dataAll <- dataADaMCDISCP01
+    labelVars <- attr(dataAll, "labelVars")
+	
+	# dataAll contains a list
+	class(dataAll)
+	# ... of ADaM datasets
+	names(dataAll)
+	# access a specific dataset
+	head(dataAll$ADSL, 1)
+	
+	# check label of a subset of the variable(s)
+	head(labelVars)
+	# or for a specific variable:
+	labelVars["USUBJID"]
+	# or:
+	getLabelVar(var = "USUBJID", labelVars = labelVars)
+
+```
+
+# Create your tables
+
+A dedicated vignette on how to create your in-text table is available
+[here](../doc/inTextSummaryTable-createTables.html)).
+
+# Table formatting/export
+
+If you are familiar with the creation of the tables, but you are wondering how
+to:
+
+* **export tables for specific formats as Word/PowerPoint/Html/R object**
+* **save tables into separated documents**
+* set specific **text formatting** (e.g. superscripts/subscripts)
+* **filter and split** exported tables
+
+then the the dedicated vignette is
+available [here](../doc/inTextSummaryTable-exportTables.html)), or accessible
+with
+
+```{r getVignetteExport, eval = FALSE}
+
+vignette("inTextSummaryTable-exportTables", "inTextSummaryTable")
+
+```
+
+# Advanced users
+
+If you are familiar with the creation and export of the tables, and you want to
+know more on the functionalities less exposed to the users, you can check out
+the vignette for advanced users, which is
+available [here](../doc/inTextSummaryTable-advanced.html)) and with
+
+```{r getVignetteAdvanced, eval = FALSE}
+
+vignette("inTextSummaryTable-advanced", "inTextSummaryTable")
+
+```
+
+# Visualization
+
+The `inTextSummaryTable` has also visualization functionalities based on the
+computation of summary statistics. The vignette for visualization is available
+at [this](../doc/inTextSummaryTable-visualization.html)) link or through
+
+```{r getVignetteVisualization, eval = FALSE}
+
+vignette("inTextSummaryTable-visualization", "inTextSummaryTable")
+
+``` 
+
+# Aesthetics
+
+The `inTextSummaryTable` package allow the user to set global options for the
+color schemes of tables and visualization. The main advantage is that if
+you wish to change the default palettes, it is possible to set your preferences
+only once at the beginning of the R script or Rmd document.
+
+The vignette is available
+via [this](../doc/inTextSummaryTable-visualization.html)) link or
+
+```{r getVignetteAesthetics, eval = FALSE}
+
+vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
+
+```
+
+# Appendix
+
+## Session information
+
+```{r includeSessionInfo, echo = FALSE}
+
+	pander(sessionInfo())
+
+```
