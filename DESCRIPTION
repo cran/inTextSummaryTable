@@ -1,8 +1,8 @@
 Package: inTextSummaryTable
 Type: Package
 Title: Creation of in-Text Summary Table
-Version: 3.0.0
-Date: 2021-06-09
+Version: 3.0.1
+Date: 2021-07-13
 Authors@R: c(
   person(given = "Laure", family = "Cougnaud", role = c("aut", "cre"),
   email = "laure.cougnaud@openanalytics.eu"),
@@ -22,10 +22,12 @@ BugReports: https://github.com/openanalytics/inTextSummaryTable/issues
 License: MIT + file LICENSE
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
+SystemRequirements: pandoc (to export an interactive summary table to a
+        file)
 NeedsCompilation: no
-Packaged: 2021-06-09 12:48:15 UTC; lcougnaud
+Packaged: 2021-07-13 14:41:24 UTC; lcougnaud
 Author: Laure Cougnaud [aut, cre],
   Michela Pasetto [aut]
 Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>
 Repository: CRAN
-Date/Publication: 2021-06-10 08:00:02 UTC
+Date/Publication: 2021-07-13 15:30:02 UTC
