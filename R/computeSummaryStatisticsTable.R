@@ -1,7 +1,4 @@
 #' Compute summary statistics for a specific dataset and variables of interest
-#' @param varFlag Character vector, subset of \code{var} with variable(s) 
-#' of type 'flag' (with 'Y', 'N' or '' for empty/non specified value).
-#' Only the counts for records flagged (with 'Y') are retained.
 #' @param rowOrder Specify how the rows should be ordered in the final table, either a:
 #' \itemize{
 #' \item{String among:}{
@@ -147,68 +144,10 @@
 #' a separated row (by default) or in the row containing the header of the variable?
 #' @inheritParams inTextSummaryTable-common-args
 #' @inheritParams computeSummaryStatisticsByRowColVar
-#' @return data.frame of class 'countTable' or 'summaryTable',
-#' depending on the 'type' parameter; or list of such data.frame if
+#' @return An object \code{\link{summaryTable}}
+#' or list of such objects if
 #' \code{byVar} is specified.
-#' The data.frame contains the :
-#' \itemize{
-#' \item{row and column variables}
-#' \item{computed statistics: }{if \code{type} is:
-#' \itemize{
-#' \item{'summaryTable': }{
-#' \itemize{
-#' \item{'statN': }{number of subjects}
-#' \item{'statMean': }{mean of \code{var}}
-#' \item{'statSD': }{standard deviation of \code{var}}
-#' \item{'statSE': }{standard error of \code{var}}
-#' \item{'statMedian': }{median of \code{var}}
-#' \item{'statMin': }{minimum of \code{var}}
-#' \item{'statMax': }{maximum of \code{var}}
-#' \item{'statPerc': }{percentage of subjects}
-#' \item{'statPercTotalN': }{total number of subjects based on \code{dataTotalPerc},
-#' denominator of \code{statPerc}}
-#' \item{'statm': }{number of records}
-#' }
-#' }
-#' \item{'countTable': }{
-#' \itemize{
-#' \item{'statN': }{number of subjects}
-#' \item{'statPercN' (or 'statPercm'): }{percentage of subjects
-#' (or records depending on \code{statsPerc})}
-#' \item{'statPercTotalN' (or 'statPercTotalm'): }{total number of 
-#' subjects (or records) based on \code{dataTotalPerc}, and used as
-#' denominator of \code{statPercN} (or 'statPercm')}
-#' \item{'statm': }{number of records}
-#' }}}
-#' }
-#' \item{statistics specified by \code{statsVar}.
-#' (if not named and of length 1 in a column 'Statistic')}
-#' \item{variables: }{
-#' \itemize{
-#' \item{'variable': }{variable name in case \code{var} is of length > 1}
-#' \item{'variableGroup': }{in case \code{var} is of length > 1 and for variable(s) used for count:
-#' elements of the variable}
-#' }
-#' }
-#' \item{'isTotal': }{variable with logical flag, TRUE if the record contain the total by column}
-#' }
-#' Additionally, the output contains the following attributes:
-#' \itemize{
-#' \item{'statsVar': }{column name(s) of summary table with computed statistics
-#' included in the final table}
-#' \item{'rowVar': }{column name(s) of summary table with row variable
-#' included in the final table. This parameter should be mainly used for qualitative variables and 'nests' together different rows in the final output table.}
-#' \item{'rowVarLab': }{labels corresponding to the 'rowVar' attribute}
-#' \item{'rowVarTotalInclude': }{row variables whose total will be included:
-#' \code{rowVarTotalInclude} and 'variableGroup' if the variable total should be included}
-#' \item{'rowVarTotalInSepRow': }{row variables whose total will be included in a separated row:
-#' \code{rowVarTotalInSepRow} and 'variableGroup' if \code{varTotalInSepRow}}
-#' \item{'colVar': }{column name(s) of summary table with column variable
-#' included in the final table}
-#' \item{'colTotalLab': }{label for the total}
-#' } 
 #' @author Laure Cougnaud
-#' @importFrom dplyr n_distinct
 #' @importFrom plyr ddply rbind.fill dlply
 #' @importFrom clinUtils getLabelVar
 #' @export
@@ -247,7 +186,8 @@ computeSummaryStatisticsTable <- function(
 	statsPerc = c("statN", "statm"),
 	filterFct = NULL,
 	labelVars = NULL,
-	byVar = NULL, byVarLab = NULL
+	byVar = NULL, byVarLab = NULL,
+	checkVarDiffBySubj = "error"
 ){
 	
 	inputParams <- as.list(environment())
@@ -382,18 +322,14 @@ computeSummaryStatisticsTable <- function(
 	
 	# for flag variable:
 	if(!is.null(varFlag)){
+		
 		# convert them to a format to only retain flagged records
 		data[, varFlag] <- colwise(convertVarFlag)(data[, varFlag, drop = FALSE])
-		# filter the 'non' flagged counts:
-		filterFctFlag <- function(x){
-			isVar <- if("variableInit" %in% colnames(x)){
-				x$variableInit %in% varFlag
-			}else{TRUE}
-			idxKept <- which(x$isTotal | !(isVar & x$variableGroup == "N"))
-			xFiltered <- x[idxKept, ]
-			return(xFiltered)
-		}
-		filterFct <- c(filterFct, list(filterFctFlag))
+		
+		postProcessVarFlagTable <- function(summaryTable)
+			postProcessVarFlag(summaryTable = summaryTable, varFlag = varFlag)
+		filterFct <- c(filterFct, list(postProcessVarFlagTable))
+		
 	}
 	
 	# convert row/column variables to factor
@@ -410,7 +346,8 @@ computeSummaryStatisticsTable <- function(
 		type = type,
 		rowVar = rowVar, rowInclude0 = rowInclude0, rowVarDataLevels = rowVarDataLevels,
 		colVar = colVar, colInclude0 = colInclude0, colVarDataLevels = colVarDataLevels,
-		subjectVar = subjectVar, labelVars = labelVars
+		subjectVar = subjectVar, labelVars = labelVars,
+		checkVarDiffBySubj = checkVarDiffBySubj
 	)
 	
 	if(nrow(summaryTable) == 0)
@@ -452,7 +389,8 @@ computeSummaryStatisticsTable <- function(
 			type = type,
 			rowVar = rowVar, rowInclude0 = rowInclude0,	rowVarDataLevels = rowVarDataLevels,
 			subjectVar = subjectVar, labelVars = labelVars,
-			msgLabel = "total column"
+			msgLabel = "total column",
+			checkVarDiffBySubj = checkVarDiffBySubj
 		)
 		
 		if(nrow(summaryTableColTotal) > 0)
@@ -567,7 +505,8 @@ computeSummaryStatisticsTable <- function(
 				rowVar = rowVarOther, rowInclude0 = rowInclude0, rowVarDataLevels = rowVarDataLevels,
 				colVar = colVar, colInclude0 = colInclude0, colVarDataLevels = colVarDataLevels,
 				subjectVar = subjectVar, varLab = varLab, labelVars = labelVars,
-				msgLabel = paste("row total for", rVST)
+				msgLabel = paste("row total for", rVST),
+				checkVarDiffBySubj = checkVarDiffBySubj
 			)
 			
 			# include also the total across columns (if required)
@@ -603,7 +542,8 @@ computeSummaryStatisticsTable <- function(
 					type = type,
 					rowVar = rowVarOther, rowInclude0 = rowInclude0, rowVarDataLevels = rowVarDataLevels,
 					subjectVar = subjectVar, varLab = varLab, labelVars = labelVars,
-					msgLabel = paste("total column for the row total for", rVST)
+					msgLabel = paste("total column for the row total for", rVST),
+					checkVarDiffBySubj = checkVarDiffBySubj
 				)
 				if(nrow(summaryTableRowSubtotalVarColTotal) > 0)
 					summaryTableRowSubtotalVarColTotal[, colVar] <- colTotalLab
@@ -690,7 +630,8 @@ computeSummaryStatisticsTable <- function(
 		subjectVar = subjectVar,
 		# not used:
 		var = var, varLab = varLab, labelVars = labelVars,
-		msgLabel = "header total"
+		msgLabel = "header total",
+		checkVarDiffBySubj = checkVarDiffBySubj
 	)
 	
 	# save total or not in the 'isTotal' column
@@ -744,7 +685,8 @@ computeSummaryStatisticsTable <- function(
 			rowVarTotal = rowVarTotalPerc, 
 			var = var, varLab = varLab, labelVars = labelVars,
 			subjectVar = subjectVar,
-			msgLabel = "total for percentage"
+			msgLabel = "total for percentage",
+			checkVarDiffBySubj = checkVarDiffBySubj
 		)
 		
 	}else	summaryTableTotal
@@ -840,10 +782,10 @@ computeSummaryStatisticsTable <- function(
 	
 	# if only flag variables, remove 'variableGroup'
 	# (otherwise empty line when not specifying 'stats')
-	if("variableGroup" %in% colnames(summaryTable)){
-		uniqueGroup <- all(summaryTable[which(!summaryTable$isTotal), "variableGroup"] == "", na.rm = TRUE)
-		if(uniqueGroup)
-			summaryTable[, which(colnames(summaryTable) == "variableGroup")] <- NULL
+	if("variableGroup" %in% colnames(summaryTable) && 
+		length(var) > 0 &&
+		length(setdiff(var, varFlag)) == 0){
+		summaryTable[, which(colnames(summaryTable) == "variableGroup")] <- NULL
 	}
 	
 	# sort columns
@@ -891,6 +833,8 @@ computeSummaryStatisticsTable <- function(
 	
 	attributes(summaryTable) <- c(attributes(summaryTable), list(summaryTable = attrTable))
 	
+	class(summaryTable) <- c("summaryTable", class(summaryTable))
+	
 	return(summaryTable)
 	
 }
@@ -921,7 +865,8 @@ computeSummaryStatisticsTableTotal <- function(
 	colVarDataLevels = NULL, colVarLevels = NULL,
 	subjectVar = "USUBJID",
 	labelVars = NULL,
-	msgLabel = "total"){
+	msgLabel = "total",
+	checkVarDiffBySubj = "error"){
 
 	# in case total should be computed by 'var'
 	# convert wide -> long format: one column with all variables
@@ -966,7 +911,8 @@ computeSummaryStatisticsTableTotal <- function(
 		colInclude0 = colInclude0, 
 		colVarDataLevels = colVarDataLevels,
 		subjectVar = subjectVar,
-		msgLabel = msgLabel
+		msgLabel = msgLabel,
+		checkVarDiffBySubj = checkVarDiffBySubj
 	)
 	
 	# counts across all elements of colVar
@@ -986,7 +932,8 @@ computeSummaryStatisticsTableTotal <- function(
 			subjectVar = subjectVar,
 			msgLabel = paste0("total column", 
 				if(!is.null(msgLabel))	paste(" for the ", msgLabel)
-			)
+			),
+			checkVarDiffBySubj = checkVarDiffBySubj
 		)
 		if(nrow(summaryTableTotalCol) > 0)
 			summaryTableTotalCol[, colVar] <- colTotalLab
@@ -1041,6 +988,11 @@ computeSummaryStatisticsTableTotal <- function(
 #' \item{logical of length 1, if TRUE (FALSE by default) include the total for all categorical \code{var}}
 #' \item{a character vector containing categorical \code{var} for which the total should be included}
 #' }
+#' @param checkVarDiffBySubj String, 'error' (default), 'warning',
+#' or 'none'.  
+#' Should an error, a warning, or nothing be produced
+#' if a continuous variable (\code{var}) contains
+#' different values for the same subject (by row/column)?
 #' @inheritParams inTextSummaryTable-common-args
 #' @return data.frame of class 'countTable' or 'summaryTable',
 #' depending on the 'type' parameter; with statistics in columns,
@@ -1079,7 +1031,8 @@ computeSummaryStatisticsByRowColVar <- function(
 	subjectVar = "USUBJID",
 	labelVars = NULL,
 	statsExtra = NULL,
-	msgLabel = NULL){
+	msgLabel = NULL,
+	checkVarDiffBySubj = "error"){
 
 	if(is.logical(varTotalInclude) && length(varTotalInclude) > 1)
 		stop("If 'varTotalInclude' if a logical, it should be of length 1.")
@@ -1090,7 +1043,8 @@ computeSummaryStatisticsByRowColVar <- function(
 		computeSummaryStatistics(..., 
 			subjectVar = subjectVar, 
 			statsExtra = statsExtra,
-			msgLabel = msgLabel
+			msgLabel = msgLabel,
+			checkVarDiffBySubj = checkVarDiffBySubj
 		)
 		
 	# build variables used for grouping:
@@ -1250,7 +1204,7 @@ convertVarToFactorWithOrder <- function(
 			'alphabetical' = {
 				varLevels <- c(
 					intersect("Total", data[, var]),
-					sort(setdiff(unique(data[, var]), c(catLast, "Total")), decreasing = FALSE),
+					sort(setdiff(unique(as.character(data[, var])), c(catLast, "Total")), decreasing = FALSE),
 					intersect(catLast, data[, var])
 				)
 				factor(data[, var], levels = varLevels)

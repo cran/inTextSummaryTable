@@ -12,6 +12,7 @@ computeSummaryStatistics(
   subjectVar = "USUBJID",
   filterEmptyVar = TRUE,
   type = "auto",
+  checkVarDiffBySubj = c("error", "warning", "none"),
   msgLabel = NULL,
   msgVars = NULL
 )
@@ -64,6 +65,12 @@ By default, an empty variable are filtered.}
 \item{'auto' (by default): }{'summaryTable' if the variable is numeric,
 'countTable' otherwise}
 }}
+
+\item{checkVarDiffBySubj}{String, 'error' (default), 'warning',
+or 'none'.  
+Should an error, a warning, or nothing be produced
+if a continuous variable (\code{var}) contains
+different values for the same subject?}
 
 \item{msgLabel}{(optional) String with label for the data (NULL by default), 
 included in the message/warning for checks.}

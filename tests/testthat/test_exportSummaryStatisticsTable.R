@@ -4,7 +4,7 @@ library(tools)
 library(officer)
 library(rmarkdown)
 
-test_that("summary table is exported to multiple formats", {
+test_that("A summary table is correctly exported to multiple formats", {
 			
 	skip_if_not(
 		condition = rmarkdown::pandoc_available(), 
@@ -36,7 +36,7 @@ test_that("summary table is exported to multiple formats", {
 		)
 	}
 	
-	# check that output is similar as output for single export
+	# check that output is similar as output for single exportSummaryStatisticsTable
 	for(outputType in names(files)){
 		
 		expect_equal(

@@ -1,7 +1,6 @@
 #' Arguments used across the functions of the inTextSummaryTable package.
 #' @param data Data.frame with dataset to consider for the summary table.
-#' @param summaryTable Summary table as provided by the 
-#' \code{\link{computeSummaryStatisticsTable}}.
+#' @param summaryTable A \code{\link{summaryTable}} object.
 #' @param var Character vector with variable(s) of \code{data}, 
 #' to compute statistics on.\cr
 #' If NULL (by default), counts by row/column variable(s) are computed.\cr
@@ -9,6 +8,9 @@
 #' are specified, you can include: 'all' in the \code{var}.\cr
 #' Missing values, if present, are filtered 
 #' (also for the report of number of subjects/records).
+#' @param varFlag Character vector, subset of \code{var} with variable(s) 
+#' of type 'flag' (with 'Y', 'N' or '' for empty/non specified value).
+#' Only the counts for records flagged (with 'Y') are retained.
 #' @param varLabInclude Logical, if TRUE
 #' the name of the summary statistic variable(s) (\code{var})
 #' are included in the table.

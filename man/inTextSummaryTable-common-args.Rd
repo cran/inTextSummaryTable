@@ -6,8 +6,7 @@
 \arguments{
 \item{data}{Data.frame with dataset to consider for the summary table.}
 
-\item{summaryTable}{Summary table as provided by the 
-\code{\link{computeSummaryStatisticsTable}}.}
+\item{summaryTable}{A \code{\link{summaryTable}} object.}
 
 \item{var}{Character vector with variable(s) of \code{data}, 
 to compute statistics on.\cr
@@ -16,6 +15,10 @@ To also return counts of the \code{rowVar} in case other \code{var}
 are specified, you can include: 'all' in the \code{var}.\cr
 Missing values, if present, are filtered 
 (also for the report of number of subjects/records).}
+
+\item{varFlag}{Character vector, subset of \code{var} with variable(s) 
+of type 'flag' (with 'Y', 'N' or '' for empty/non specified value).
+Only the counts for records flagged (with 'Y') are retained.}
 
 \item{varLabInclude}{Logical, if TRUE
 the name of the summary statistic variable(s) (\code{var})
