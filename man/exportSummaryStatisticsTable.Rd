@@ -33,6 +33,7 @@ exportSummaryStatisticsTable(
   title = NULL,
   outputType = "flextable",
   pageDim = NULL,
+  columnsWidth = NULL,
   landscape = (style == "presentation"),
   margin = 1,
   rowPadBase = 14.4,
@@ -188,6 +189,11 @@ Depending on \code{outputType}:
 Currently only the height is used (e.g. \code{c(NA, 4)})
 }}}
 
+\item{columnsWidth}{(expert mode) Column widths of the table. This is only used 
+for flextable and DT tables.\cr
+For flextable, note that the widths should be set to fit into the document page
+(see \code{\link{getDimPage}}).}
+
 \item{landscape}{(flextable output) Logical, if TRUE the file is in landscape format.\cr
 By default: FALSE if \code{style} is 'report' and TRUE if \code{style} is 'presentation'.}
 
@@ -260,11 +266,11 @@ The use of \code{export} is recommended.\cr
 \code{exportSummaryStatisticsTable} is retained for
 back-compatibility.
 }
-\section{Methods (by generic)}{
+\section{Functions}{
 \itemize{
-\item \code{export}: export \code{\link{summaryTable}} object
-}}
+\item \code{export(summaryTable)}: export \code{\link{summaryTable}} object
 
+}}
 \author{
 Laure Cougnaud
 }

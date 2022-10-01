@@ -37,6 +37,8 @@ data(dataADaMCDISCP01)
 dataAll <- dataADaMCDISCP01
 labelVars <- attr(dataAll, "labelVars")
 
+dataADSL <- dataADaMCDISCP01$ADSL
+
 
 ## ----formatExampleData--------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -88,21 +90,79 @@ export(
 
 ## ----combine------------------------------------------------------------------------------------------------------------------------------------------------------------
 tableDemoCat <- computeSummaryStatisticsTable(
-	data = dataADaMCDISCP01$ADSL,
+	data = dataADSL,
 	var = c("SEX", "AGE"), varInclude0 = TRUE,
 	colVar = "TRT01P",
 	stats = getStats("n (%)", includeName = FALSE),
 	labelVars = labelVars
 )
 tableDemoCont <- computeSummaryStatisticsTable(
-	data = dataADaMCDISCP01$ADSL,
+	data = dataADSL,
 	var = c("HEIGHTBL", "WEIGHTBL"),
 	colVar = "TRT01P",
-	stats = getStats(c("n", "median (range)")),
+	stats = getStats(c("n", "Mean")),
 	labelVars = labelVars
 )
 tableDemo <- combine(tableDemoCat, tableDemoCont)
 export(tableDemo)
+
+## ----combine-manually---------------------------------------------------------------------------------------------------------------------------------------------------
+dataADSL$TRT01P <- with(dataADSL, reorder(TRT01P, TRT01PN))
+
+# check format of table created with the package:
+descTable <- tableDemoCont
+descTable[, c("variable", "TRT01P", "isTotal", "n", "Mean")]
+
+## ----combine-manually-rows----------------------------------------------------------------------------------------------------------------------------------------------
+# add p-values in an extra row
+infTable <- unique(subset(descTable, !isTotal)[, c("variable", "TRT01P"), drop = FALSE])
+infTable[which(infTable$variable == "Baseline Height (cm)"), "pValue"] <- 1e-10
+infTable[which(infTable$variable == "Baseline Weight (kg)"), "pValue"] <- 1e-9
+summaryTable <- plyr::rbind.fill(descTable, infTable)
+
+exportSummaryStatisticsTable(
+	summaryTable = summaryTable, 
+	rowVar = "variable", 
+	colVar = "TRT01P", 
+	statsVar = c("n", "Mean", "pValue") 
+)
+
+## ----combine-manually-columns-------------------------------------------------------------------------------------------------------------------------------------------
+compLab <- "Comparison between treatments (p-value)"
+
+# add p-values in a new column - in an extra row
+infTable <- unique(subset(descTable, !isTotal)[, "variable", drop = FALSE])
+infTable$TRT01P <- compLab
+infTable[which(infTable$variable == "Baseline Height (cm)"), "pValue"] <- 1e-10
+infTable[which(infTable$variable == "Baseline Weight (kg)"), "pValue"] <- 1e-9 
+summaryTable <- plyr::rbind.fill(descTable, infTable) 
+
+# order columns to have comparison column as last 
+summaryTable$TRT01P <- factor(summaryTable$TRT01P, levels = c(levels(dataADSL$TRT01P), compLab))
+exportSummaryStatisticsTable(
+	summaryTable = summaryTable,  
+	rowVar = "variable",  
+	colVar = "TRT01P",  
+	statsVar = c("n", "Mean", "pValue")
+)
+
+## ----combine-manually-columns-rows--------------------------------------------------------------------------------------------------------------------------------------
+infTable <- unique(subset(descTable, !isTotal)[, "variable", drop = FALSE])
+infTable$TRT01P <- compLab
+infTable[which(infTable$variable == "Baseline Height (cm)"), "Mean"] <- 1e-10
+infTable[which(infTable$variable == "Baseline Weight (kg)"), "Mean"] <- 1e-9
+
+summaryTable <- plyr::rbind.fill(descTable, infTable) 
+
+# order columns to have comparison column as last 
+summaryTable$TRT01P <- factor(summaryTable$TRT01P, levels = c(levels(dataADSL$TRT01P), compLab)) 
+
+exportSummaryStatisticsTable(
+	summaryTable = summaryTable,
+	rowVar = "variable",
+	colVar = "TRT01P",
+	statsVar = c("n", "Mean")
+)
 
 ## ----combineVariables---------------------------------------------------------------------------------------------------------------------------------------------------
 

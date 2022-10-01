@@ -7,7 +7,6 @@
 #' @inherit convertSummaryStatisticsTableToFlextable return
 #' @author Laure Cougnaud
 #' @importFrom clinUtils getLabelVar
-#' @export
 exportSummaryStatisticsTableToFlextable <- function(
 	# for 'format' function
 	summaryTable,
@@ -33,7 +32,7 @@ exportSummaryStatisticsTableToFlextable <- function(
 	colorTable = getColorPaletteTable(style = style),
 	fontname = switch(style, 'report' = "Times", 'presentation' = "Tahoma"),
 	fontsize = switch(style, 'report' = 8, 'presentation' = 10),
-	file = NULL, pageDim = NULL,
+	file = NULL, pageDim = NULL, columnsWidth = NULL,
 	labelVars = NULL){
 
 	statsLayout <- match.arg(statsLayout, choices = c("row", "col", "rowInSepCol"))
@@ -63,7 +62,7 @@ exportSummaryStatisticsTableToFlextable <- function(
 		file = file,
 		fontname = fontname,
 		colorTable = colorTable,
-		pageDim = pageDim
+		pageDim = pageDim, columnsWidth = columnsWidth
 	)
 	
 	return(summaryTableFt)
