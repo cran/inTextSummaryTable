@@ -1,0 +1,4 @@
+PARAM	n
+(N=NA)
+A	9
+B	10
