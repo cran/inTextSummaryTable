@@ -22,6 +22,7 @@ exportSummaryStatisticsTable(
   colVar = getAttribute(summaryTable, "colVar"),
   colTotalLab = getAttribute(summaryTable, "colTotalLab", default = "Total"),
   colHeaderTotalInclude = TRUE,
+  colHeaderMerge = TRUE,
   statsVar = getAttribute(summaryTable, "statsVar"),
   statsLayout = getAttribute(summaryTable, "statsLayout", default = ifelse("DT" \%in\%
     outputType, "col", "row")),
@@ -107,6 +108,9 @@ Use: 'variable' to include the variables to summarize: \code{var}
 \item{colHeaderTotalInclude}{Logical, if TRUE include the total of number of patients
 (\code{'statN'}) in the column header.}
 
+\item{colHeaderMerge}{(flextable output) Logical, if TRUE (FALSE by default) 
+the column header is merged.}
+
 \item{statsVar}{Character vector with columns of \code{summaryTable} with
 statistic variables. For the export: if not specified, all columns of \code{data}
 besides row, column variables, 'variable', 'variableGroup'
@@ -163,7 +167,8 @@ The names should correspond to the options in \code{outputType}:}{
 }
 If NULL (by default), the summary table is not exported but only returned as output.
 If \code{byVar} is specified, each table is exported to a separated
-file with the suffix: 'file_[i].[ext]' with i the index of the file.}
+file with the suffix: 'file_[i].[ext]' with i the index of the file
+(and [ext] the file extension).}
 
 \item{title}{Character vector with title(s) for the table.
 Set to NULL (by default) if no title should be included.

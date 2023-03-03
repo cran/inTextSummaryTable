@@ -50,7 +50,8 @@ export.summaryTable <- function(...){
 #' }
 #' If NULL (by default), the summary table is not exported but only returned as output.
 #' If \code{byVar} is specified, each table is exported to a separated
-#' file with the suffix: 'file_[i].[ext]' with i the index of the file.
+#' file with the suffix: 'file_[i].[ext]' with i the index of the file
+#' (and [ext] the file extension).
 #' @inheritParams inTextSummaryTable-common-args
 #' @inheritParams formatSummaryStatisticsTable
 #' @inheritParams exportSummaryStatisticsTableToFlextable
@@ -89,6 +90,7 @@ exportSummaryStatisticsTable <- function(
 	colVar = getAttribute(summaryTable, "colVar"), 
 	colTotalLab = getAttribute(summaryTable, "colTotalLab", default = "Total"),
 	colHeaderTotalInclude = TRUE,
+	colHeaderMerge = TRUE,
 	# stats
 	statsVar = getAttribute(summaryTable, "statsVar"),
 	statsLayout = getAttribute(
@@ -182,6 +184,7 @@ exportSummaryStatisticsTable <- function(
 			rowVarFormat = rowVarFormat,
 			rowTotalLab = rowTotalLab,
 			# for 'convert' function
+			colHeaderMerge = colHeaderMerge,
 			landscape = landscape, margin = margin, rowPadBase = rowPadBase,
 			title = title, footer = footer,
 			style = style, fontsize = fontsize,
