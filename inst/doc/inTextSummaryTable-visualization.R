@@ -2,7 +2,8 @@
 
 library(knitr)
 opts_chunk$set(
-    echo = TRUE, results = 'markup', warning = FALSE, 
+    echo = TRUE, 
+    results = 'markup', warning = FALSE, 
     # stop document execution if error (not the default)
     error = FALSE, 
     message = FALSE, cache = FALSE,
@@ -20,6 +21,8 @@ options(warn = 1)
 library(inTextSummaryTable)
 library(clinUtils)
 library(pander)
+# 'Tahoma' font should be registered upfront to create plots with: 'presentation' style
+library(extrafont)
 
 
 ## ----loadData-----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -64,18 +67,17 @@ subjectProfileSummaryPlot(
 )
 
 
-## ----visualization-presentation-----------------------------------------------------------------------------------------------------------------------------------------
-
-subjectProfileSummaryPlot(
-    data = dataPlot,
-    xVar = "AVISIT",
-    colorVar = "TRTA",
-    labelVars = labelVars,
-    useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
-)
-
+## ----visualization-presentation, eval = "Tahoma" %in% extrafont::fonts()------------------------------------------------------------------------------------------------
+#  subjectProfileSummaryPlot(
+#      data = dataPlot,
+#      xVar = "AVISIT",
+#      colorVar = "TRTA",
+#      labelVars = labelVars,
+#      useLinetype = TRUE,
+#      tableText = "statN",
+#      style = "presentation"
+#  )
+#  
 
 ## ----getVignetteAesthetics, eval = FALSE--------------------------------------------------------------------------------------------------------------------------------
 #  
@@ -102,8 +104,7 @@ subjectProfileSummaryPlot(
     colorPalette = customColorPalette,
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 
@@ -118,8 +119,7 @@ subjectProfileSummaryPlot(
     shapePalette = customShapePalette,
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 # custom linetype palette
@@ -131,8 +131,7 @@ subjectProfileSummaryPlot(
     linetypePalette = customLinetypePalette,
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 
@@ -159,8 +158,7 @@ subjectProfileSummaryPlot(
     colorVar = "TRTA",
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 # custom color palette by setting a named vector of colors
@@ -177,8 +175,7 @@ subjectProfileSummaryPlot(
     colorVar = "TRTA",
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 
@@ -194,8 +191,7 @@ subjectProfileSummaryPlot(
     colorVar = "TRTA",
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 # custom linetype palette
@@ -208,8 +204,7 @@ subjectProfileSummaryPlot(
     colorVar = "TRTA",
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 
@@ -228,8 +223,7 @@ subjectProfileSummaryPlot(
     colorVar = "TRTA",
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = NULL,
-    style = "presentation"
+    tableText = NULL
 )
 
 
@@ -269,8 +263,7 @@ subjectProfileSummaryPlot(
     colorVar = "TRTA",
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 # plot the mean with standard deviation
@@ -281,8 +274,7 @@ subjectProfileSummaryPlot(
     colorVar = "TRTA",
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 # change labels
@@ -295,8 +287,7 @@ subjectProfileSummaryPlot(
     colorVar = "TRTA",
     labelVars = labelVars,
     useLinetype = TRUE,
-    tableText = "statN",
-    style = "presentation"
+    tableText = "statN"
 )
 
 
