@@ -393,60 +393,60 @@
 
 
 ## ----ECG-formatData, eval = FALSE---------------------------------------------------------------------------------------------------------------------------------------
-#  
-#  	# data of interest
-#  	paramsECG <- c("QT", "QTCF", "QRS", "PR", "RR", "EGHR")
-#  
-#  	dataECG <- subset(dataAll$ADEG, SAFFL == "Y" & PARAMCD %in% paramsECG)
-#  	dataECG$TRTA <- with(dataECG, reorder(TRTA, TRTAN))
-#  	dataECG$PARAM <- with(dataECG, reorder(PARAM, PARAMN))
-#  	
-#  	# consider all non-missing post-baseline records
-#  	dataECGPostBaseline <- subset(dataECG,
-#  		AVISIT %in% c("Screening", "Baseline", "Worst-case post-baseline")
-#  	)
-#  	
-#  	# worst-case scenario:
-#  	dataECGWC <- subset(dataECG, AVISIT == "Worst-case post-baseline")
-#  	# treatment-emergent
-#  	dataECGWC$TRTEMFL <- with(dataECGWC, ifelse(BASECAT1 != CHGCAT1, "Y", "N"))
-#  	dataECGWCTE <- subset(dataECGWC, TRTEMFL == "Y")
-#  	dataECGWC <- convertVarToFactor(dataECGWC,
-#  		var = c("AVALCAT1", "CHGCAT1"),
-#  		varNum = c("AVALCA1N", "CHGCAT1N")
-#  	)
-#  	
-#  	# create the table
-#  	getSummaryStatisticsTable(
-#  		data = dataECGWC,
-#  		# layout:
-#  		colVar = "TRTA",
-#  		rowVar = "PARAM", rowVarLab = c('PARAM' = "ECG Parameter"),
-#  		# metrics to compute statistics on
-#  		var = c("AVALCAT1", "CHGCAT1"),
-#  		# in a separated column
-#  		rowVarInSepCol = c("variable", "variableGroup"),
-#  		# labels
-#  		varGeneralLab = "Abnormality",
-#  		varSubgroupLab = "Worst-Case Post-Baseline",
-#  		stats = getStats("n (%)"),
-#  		labelVars = labelVars,
-#  		# total: all post-baseline
-#  		dataTotal = dataECGPostBaseline,
-#  		emptyValue = "0",
-#  		rowVarTotalPerc = "PARAM", # total per parameter
-#  		# ensure that categories are below the type of abnormality
-#  		rowAutoMerge = FALSE,
-#  		# only retain abnormalities:
-#  		filterFct = function(x){
-#  			subset(x, !variableGroup %in% c("<= 450 msec", "<= 30 msec"))
-#  		},
-#  		title = toTitleCase(paste("Table: Treatment-emergent worst-case",
-#  			"ECG abnormalities and change from baseline ECG abnormalities (safety analysis set)"
-#  		)),
-#  		file = file.path("tables_CSR", "Table_ECG.docx")
-#  	)
-#  	
+# 
+# 	# data of interest
+# 	paramsECG <- c("QT", "QTCF", "QRS", "PR", "RR", "EGHR")
+# 
+# 	dataECG <- subset(dataAll$ADEG, SAFFL == "Y" & PARAMCD %in% paramsECG)
+# 	dataECG$TRTA <- with(dataECG, reorder(TRTA, TRTAN))
+# 	dataECG$PARAM <- with(dataECG, reorder(PARAM, PARAMN))
+# 	
+# 	# consider all non-missing post-baseline records
+# 	dataECGPostBaseline <- subset(dataECG,
+# 		AVISIT %in% c("Screening", "Baseline", "Worst-case post-baseline")
+# 	)
+# 	
+# 	# worst-case scenario:
+# 	dataECGWC <- subset(dataECG, AVISIT == "Worst-case post-baseline")
+# 	# treatment-emergent
+# 	dataECGWC$TRTEMFL <- with(dataECGWC, ifelse(BASECAT1 != CHGCAT1, "Y", "N"))
+# 	dataECGWCTE <- subset(dataECGWC, TRTEMFL == "Y")
+# 	dataECGWC <- convertVarToFactor(dataECGWC,
+# 		var = c("AVALCAT1", "CHGCAT1"),
+# 		varNum = c("AVALCA1N", "CHGCAT1N")
+# 	)
+# 	
+# 	# create the table
+# 	getSummaryStatisticsTable(
+# 		data = dataECGWC,
+# 		# layout:
+# 		colVar = "TRTA",
+# 		rowVar = "PARAM", rowVarLab = c('PARAM' = "ECG Parameter"),
+# 		# metrics to compute statistics on
+# 		var = c("AVALCAT1", "CHGCAT1"),
+# 		# in a separated column
+# 		rowVarInSepCol = c("variable", "variableGroup"),
+# 		# labels
+# 		varGeneralLab = "Abnormality",
+# 		varSubgroupLab = "Worst-Case Post-Baseline",
+# 		stats = getStats("n (%)"),
+# 		labelVars = labelVars,
+# 		# total: all post-baseline
+# 		dataTotal = dataECGPostBaseline,
+# 		emptyValue = "0",
+# 		rowVarTotalPerc = "PARAM", # total per parameter
+# 		# ensure that categories are below the type of abnormality
+# 		rowAutoMerge = FALSE,
+# 		# only retain abnormalities:
+# 		filterFct = function(x){
+# 			subset(x, !variableGroup %in% c("<= 450 msec", "<= 30 msec"))
+# 		},
+# 		title = toTitleCase(paste("Table: Treatment-emergent worst-case",
+# 			"ECG abnormalities and change from baseline ECG abnormalities (safety analysis set)"
+# 		)),
+# 		file = file.path("tables_CSR", "Table_ECG.docx")
+# 	)
+# 	
 
 ## ----tableVitalSigns----------------------------------------------------------------------------------------------------------------------------------------------------
 

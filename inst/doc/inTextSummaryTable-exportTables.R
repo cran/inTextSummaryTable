@@ -16,9 +16,9 @@ options(warn = 1)
 
 
 ## ----getVignette, eval = FALSE------------------------------------------------------------------------------------------------------------------------------------------
-#  
-#  vignette("inTextSummaryTable-createTables", "inTextSummaryTable")
-#  
+# 
+# vignette("inTextSummaryTable-createTables", "inTextSummaryTable")
+# 
 
 ## ----loadPackages-------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -229,9 +229,9 @@ getOption("inTextSummaryTable.pageDim.presentation")
 
 
 ## ----getVignetteAesthetics, eval = FALSE--------------------------------------------------------------------------------------------------------------------------------
-#  
-#  vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
-#  
+# 
+# vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
+# 
 
 ## ----aesthetics-backDefaultPalettes-------------------------------------------------------------------------------------------------------------------------------------
 
@@ -239,53 +239,53 @@ options(inTextSummaryTable.colors.table.presentation = tableColorsPresentation)
 
 
 ## ----file, eval = FALSE-------------------------------------------------------------------------------------------------------------------------------------------------
-#  
-#  # export table to a Word document
-#  summaryTableFt <- getSummaryStatisticsTable(
-#      data = dataAEInterest,
-#      rowVar = c("AESOC", "AEDECOD"),
-#      colVar = "TRTA",
-#      stats = getStats("n (%)"),
-#      dataTotal = dataTotalAE,
-#      labelVars = labelVars,
-#      file = file.path("tables_CSR", "summaryTable-AEs.docx")
-#  )
-#  
-#  # export interactive table to a html document
-#  summaryTableFt <- getSummaryStatisticsTable(
-#      data = dataAEInterest,
-#      rowVar = c("AESOC", "AEDECOD"),
-#      colVar = "TRTA",
-#      stats = getStats("n (%)"),
-#      dataTotal = dataTotalAE,
-#      labelVars = labelVars,
-#      file = file.path("tables_CSR", "summaryTable-AEs.html")
-#  )
-#  
-#  # export table in raw format to a text file
-#  summaryTableFt <- getSummaryStatisticsTable(
-#      data = dataAEInterest,
-#      rowVar = c("AESOC", "AEDECOD"),
-#      colVar = "TRTA",
-#      stats = getStats("n (%)"),
-#      dataTotal = dataTotalAE,
-#      labelVars = labelVars,
-#      file = file.path("tables_CSR", "summaryTable-AEs.txt")
-#  )
-#  
-#  # export to multiple formats at once
-#  summaryTableFt <- getSummaryStatisticsTable(
-#      data = dataAEInterest,
-#      rowVar = c("AESOC", "AEDECOD"),
-#      colVar = "TRTA",
-#      stats = getStats("n (%)"),
-#      dataTotal = dataTotalAE,
-#      labelVars = labelVars,
-#      file = file.path("tables_CSR",
-#          c("summaryTable.txt", "summaryTable.docx", "summaryTable.html")
-#      )
-#  )
-#  
+# 
+# # export table to a Word document
+# summaryTableFt <- getSummaryStatisticsTable(
+#     data = dataAEInterest,
+#     rowVar = c("AESOC", "AEDECOD"),
+#     colVar = "TRTA",
+#     stats = getStats("n (%)"),
+#     dataTotal = dataTotalAE,
+#     labelVars = labelVars,
+#     file = file.path("tables_CSR", "summaryTable-AEs.docx")
+# )
+# 
+# # export interactive table to a html document
+# summaryTableFt <- getSummaryStatisticsTable(
+#     data = dataAEInterest,
+#     rowVar = c("AESOC", "AEDECOD"),
+#     colVar = "TRTA",
+#     stats = getStats("n (%)"),
+#     dataTotal = dataTotalAE,
+#     labelVars = labelVars,
+#     file = file.path("tables_CSR", "summaryTable-AEs.html")
+# )
+# 
+# # export table in raw format to a text file
+# summaryTableFt <- getSummaryStatisticsTable(
+#     data = dataAEInterest,
+#     rowVar = c("AESOC", "AEDECOD"),
+#     colVar = "TRTA",
+#     stats = getStats("n (%)"),
+#     dataTotal = dataTotalAE,
+#     labelVars = labelVars,
+#     file = file.path("tables_CSR", "summaryTable-AEs.txt")
+# )
+# 
+# # export to multiple formats at once
+# summaryTableFt <- getSummaryStatisticsTable(
+#     data = dataAEInterest,
+#     rowVar = c("AESOC", "AEDECOD"),
+#     colVar = "TRTA",
+#     stats = getStats("n (%)"),
+#     dataTotal = dataTotalAE,
+#     labelVars = labelVars,
+#     file = file.path("tables_CSR",
+#         c("summaryTable.txt", "summaryTable.docx", "summaryTable.html")
+#     )
+# )
+# 
 
 ## ----export-------------------------------------------------------------------------------------------------------------------------------------------------------------
 

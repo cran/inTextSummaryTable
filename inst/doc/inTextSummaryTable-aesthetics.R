@@ -89,9 +89,9 @@ getOption("inTextSummaryTable.pageDim.presentation")
 
 
 ## ----getVignetteClinUtils, eval = FALSE---------------------------------------------------------------------------------------------------------------------------------
-#  
-#  vignette("clinUtils-vignette", "clinUtils")
-#  
+# 
+# vignette("clinUtils-vignette", "clinUtils")
+# 
 
 ## ----aesthetics-defaultsVisualization-----------------------------------------------------------------------------------------------------------------------------------
 

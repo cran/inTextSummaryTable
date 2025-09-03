@@ -1,8 +1,8 @@
 ## ----getVignette, eval = FALSE------------------------------------------------
-#  
-#  vignette("inTextSummaryTable-createTables", "inTextSummaryTable")
-#  vignette("inTextSummaryTable-exportTables", "inTextSummaryTable")
-#  
+# 
+# vignette("inTextSummaryTable-createTables", "inTextSummaryTable")
+# vignette("inTextSummaryTable-exportTables", "inTextSummaryTable")
+# 
 
 ## ----options, echo = FALSE----------------------------------------------------------------------------------------------------------------------------------------------
 

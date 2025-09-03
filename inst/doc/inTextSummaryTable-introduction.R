@@ -48,24 +48,24 @@
 
 
 ## ----getVignetteExport, eval = FALSE------------------------------------------------------------------------------------------------------------------------------------
-#  
-#  vignette("inTextSummaryTable-exportTables", "inTextSummaryTable")
-#  
+# 
+# vignette("inTextSummaryTable-exportTables", "inTextSummaryTable")
+# 
 
 ## ----getVignetteAdvanced, eval = FALSE----------------------------------------------------------------------------------------------------------------------------------
-#  
-#  vignette("inTextSummaryTable-advanced", "inTextSummaryTable")
-#  
+# 
+# vignette("inTextSummaryTable-advanced", "inTextSummaryTable")
+# 
 
 ## ----getVignetteVisualization, eval = FALSE-----------------------------------------------------------------------------------------------------------------------------
-#  
-#  vignette("inTextSummaryTable-visualization", "inTextSummaryTable")
-#  
+# 
+# vignette("inTextSummaryTable-visualization", "inTextSummaryTable")
+# 
 
 ## ----getVignetteAesthetics, eval = FALSE--------------------------------------------------------------------------------------------------------------------------------
-#  
-#  vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
-#  
+# 
+# vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
+# 
 
 ## ----includeSessionInfo, echo = FALSE-----------------------------------------------------------------------------------------------------------------------------------
 

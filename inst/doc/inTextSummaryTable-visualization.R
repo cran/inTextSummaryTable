@@ -68,26 +68,26 @@ subjectProfileSummaryPlot(
 
 
 ## ----visualization-presentation, eval = "Tahoma" %in% extrafont::fonts()------------------------------------------------------------------------------------------------
-#  subjectProfileSummaryPlot(
-#      data = dataPlot,
-#      xVar = "AVISIT",
-#      colorVar = "TRTA",
-#      labelVars = labelVars,
-#      useLinetype = TRUE,
-#      tableText = "statN",
-#      style = "presentation"
-#  )
-#  
+# subjectProfileSummaryPlot(
+#     data = dataPlot,
+#     xVar = "AVISIT",
+#     colorVar = "TRTA",
+#     labelVars = labelVars,
+#     useLinetype = TRUE,
+#     tableText = "statN",
+#     style = "presentation"
+# )
+# 
 
 ## ----getVignetteAesthetics, eval = FALSE--------------------------------------------------------------------------------------------------------------------------------
-#  
-#  vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
-#  
+# 
+# vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
+# 
 
 ## ----getVignetteClinUtils, eval = FALSE---------------------------------------------------------------------------------------------------------------------------------
-#  
-#  vignette("clinUtils-vignette", "clinUtils")
-#  
+# 
+# vignette("clinUtils-vignette", "clinUtils")
+# 
 
 ## ----visualization-customColorFromArgument------------------------------------------------------------------------------------------------------------------------------
 
@@ -136,15 +136,15 @@ subjectProfileSummaryPlot(
 
 
 ## ----exampleLoadingPackageAndOptions, eval = FALSE----------------------------------------------------------------------------------------------------------------------
-#  
-#  # this is OK
-#  library(inTextSummaryTable)
-#  options(inTextSummaryTable.colors.plot = customColorPalette)
-#  
-#  # this does NOT set your custom palette
-#  options(inTextSummaryTable.colors.plot = customColorPalette)
-#  library(inTextSummaryTable)
-#  
+# 
+# # this is OK
+# library(inTextSummaryTable)
+# options(inTextSummaryTable.colors.plot = customColorPalette)
+# 
+# # this does NOT set your custom palette
+# options(inTextSummaryTable.colors.plot = customColorPalette)
+# library(inTextSummaryTable)
+# 
 
 ## ----visualization-customColorFromOptions-------------------------------------------------------------------------------------------------------------------------------
 
