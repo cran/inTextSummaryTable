@@ -1,8 +1,8 @@
 Package: inTextSummaryTable
 Type: Package
 Title: Creation of in-Text Summary Table
-Version: 3.3.4
-Date: 2025-09-03
+Version: 3.3.5
+Date: 2025-09-24
 Authors@R: c(
   person(given = "Laure", family = "Cougnaud", role = c("aut", "cre"),
   email = "laure.cougnaud@openanalytics.eu"),
@@ -19,21 +19,21 @@ Description: Creation of tables of summary statistics or counts for clinical dat
 Imports: clinUtils (>= 0.1.0), cowplot, flextable (>= 0.5.5), ggplot2,
         ggrepel, magrittr, methods, officer, plyr, reshape2 (>= 1.4),
         scales, stats, utils
-Suggests: htmltools, knitr, rmarkdown, pander, testthat, xml2, tools,
-        dplyr, tibble, extrafont
+Suggests: htmltools, knitr, rmarkdown, testthat, xml2, tools, tibble,
+        extrafont
 URL: https://github.com/openanalytics/inTextSummaryTable
 BugReports: https://github.com/openanalytics/inTextSummaryTable/issues
 License: MIT + file LICENSE
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 SystemRequirements: pandoc (to export an interactive summary table to a
         file)
 NeedsCompilation: no
-Packaged: 2025-09-03 20:34:10 UTC; root
+Packaged: 2025-09-24 15:57:10 UTC; root
 Author: Laure Cougnaud [aut, cre],
   Michela Pasetto [aut],
   Margaux Faes [rev] (tests),
   Open Analytics [cph]
 Maintainer: Laure Cougnaud <laure.cougnaud@openanalytics.eu>
 Repository: CRAN
-Date/Publication: 2025-09-03 21:10:06 UTC
+Date/Publication: 2025-09-25 09:30:08 UTC

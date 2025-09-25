@@ -25,7 +25,6 @@ options(warn = 1)
 
 library(inTextSummaryTable)
 library(clinUtils)
-library(pander)
 library(tools) # toTitleCase
 
 
@@ -72,13 +71,10 @@ summaryTable <- computeSummaryStatisticsTable(
     rowVarLab = c('AESOC' = "TEAE by SOC and Preferred Term\nn (%)")
 )
 
-pander(head(summaryTable, 3))
-
+print(head(summaryTable, 3))
 
 ## ----computeSummaryStatisticsTable-isTotal------------------------------------------------------------------------------------------------------------------------------
-
-pander(subset(summaryTable, isTotal))
-
+print(subset(summaryTable, isTotal))
 
 ## ----export-flextable---------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -197,8 +193,6 @@ getSummaryStatisticsTable(
 )
 
 
-## ----includeSessionInfo, echo = FALSE-----------------------------------------------------------------------------------------------------------------------------------
-
-pander(sessionInfo())
-
+## ----includeSessionInfo, echo = FALSE, results = "asis"-----------------------------------------------------------------------------------------------------------------
+print(sessionInfo())
 

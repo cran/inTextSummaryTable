@@ -17,13 +17,8 @@ options(warn = 1)
 
 
 ## ----loadPackages-------------------------------------------------------------------------------------------------------------------------------------------------------
-
 library(inTextSummaryTable)
 library(clinUtils)
-library(pander)
-# 'Tahoma' font should be registered upfront to create plots with: 'presentation' style
-library(extrafont)
-
 
 ## ----loadData-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -67,7 +62,8 @@ subjectProfileSummaryPlot(
 )
 
 
-## ----visualization-presentation, eval = "Tahoma" %in% extrafont::fonts()------------------------------------------------------------------------------------------------
+## ----visualization-presentation, eval = requireNamespace("extrafont", quietly = TRUE) && "Tahoma" %in% extrafont::fonts()-----------------------------------------------
+# # 'Tahoma' font should be registered upfront to create plots with: 'presentation' style
 # subjectProfileSummaryPlot(
 #     data = dataPlot,
 #     xVar = "AVISIT",
@@ -291,8 +287,6 @@ subjectProfileSummaryPlot(
 )
 
 
-## ----includeSessionInfo, echo = FALSE-----------------------------------------------------------------------------------------------------------------------------------
-
-pander(sessionInfo())
-
+## ----includeSessionInfo, echo = FALSE, results = "asis"-----------------------------------------------------------------------------------------------------------------
+print(sessionInfo())
 

@@ -18,7 +18,6 @@
 ## ----loadPackages-------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	library(inTextSummaryTable)
-	library(pander)
 	library(tools) # toTitleCase
 
 
@@ -67,8 +66,6 @@
 # vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
 # 
 
-## ----includeSessionInfo, echo = FALSE-----------------------------------------------------------------------------------------------------------------------------------
-
-	pander(sessionInfo())
-
+## ----includeSessionInfo, echo = FALSE, results = "asis"-----------------------------------------------------------------------------------------------------------------
+print(sessionInfo())
 

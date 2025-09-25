@@ -24,7 +24,6 @@ options(warn = 1)
 
 library(inTextSummaryTable)
 library(clinUtils)
-library(pander)
 library(tools) # toTitleCase
 
 
@@ -164,8 +163,7 @@ summaryTable <- getSummaryStatisticsTable(
     style = "presentation",
     outputType = "data.frame"
 )
-pander(summaryTable, split.table = Inf)
-
+print(summaryTable, split.table = Inf)
 
 ## ----outputType-dataframe-base------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -187,8 +185,7 @@ summaryTableAll <- getSummaryStatisticsTable(
     style = "presentation",
     outputType = "data.frame-base"
 )
-pander(summaryTableAll, split.table = Inf)
-
+print(summaryTableAll, split.table = Inf)
 
 ## ----aesthetics-changeReportingOptions----------------------------------------------------------------------------------------------------------------------------------
 
@@ -479,8 +476,6 @@ ddply(x, "AEDECOD", function(xTerm)
 
 # format it as a function and pass it to the 'filterFct' parameter
 
-## ----includeSessionInfo, echo = FALSE-----------------------------------------------------------------------------------------------------------------------------------
-
-pander(sessionInfo())
-
+## ----includeSessionInfo, echo = FALSE, results = "asis"-----------------------------------------------------------------------------------------------------------------
+print(sessionInfo())
 

@@ -18,7 +18,6 @@
 	library(clinUtils)
 	library(tools)# toTitleCase
 	library(plyr) # for ddply, rbind.fill
-	library(pander) # for session info
 	library(inTextSummaryTable)
 
 
@@ -521,8 +520,6 @@
 	)
 
 
-## ----includeSessionInfo, echo = FALSE-----------------------------------------------------------------------------------------------------------------------------------
-
-	pander(sessionInfo())
-
+## ----includeSessionInfo, echo = FALSE, results = "asis"-----------------------------------------------------------------------------------------------------------------
+print(sessionInfo())
 

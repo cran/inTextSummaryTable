@@ -154,9 +154,6 @@ getDimPage(type = "width", style = "presentation")
 getDimPage(type = "height", style = "presentation")
 
 
-## ----includeSessionInfo, echo = FALSE-----------------------------------------------------------------------------------------------------------------------------------
-
-library(pander)
-pander(sessionInfo())
-
+## ----includeSessionInfo, echo = FALSE, results = "asis"-----------------------------------------------------------------------------------------------------------------
+print(sessionInfo())
 
