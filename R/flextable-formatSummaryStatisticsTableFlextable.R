@@ -77,7 +77,7 @@ formatSummaryStatisticsTableFlextable <- function(
 		}
 	}
 	
-	hlineParams <- mergeParams <- formatParams <- NULL	
+	hlineParams <- mergeParams <- formatParams <- NULL
 	
 	mergeRows <- !is.null(rowVar) | (statsLayout != "rowInSepCol" & statsLabInclude)
 	if(mergeRows){
@@ -175,6 +175,13 @@ formatSummaryStatisticsTableFlextable <- function(
 					if(length(isNAVal) > 0){
 						val <- val[-isNAVal]
 						idxRowToRepl <- idxRowToRepl[-isNAVal]
+					}
+					
+					# if row to replicate is 'Total' and already replicated in previous iterations (== only first row var have total)
+					idxTotal <- which((summaryTable[idxRowToRepl, rowVarFinal] == "Total") & (val == "Total"))
+					if(length(idxTotal) > 0){
+					  idxRowToRepl <- idxRowToRepl[-idxTotal]
+					  val <- val[-idxTotal]
 					}
 					
 					summaryTable <- summaryTable[sort(c(idxRowToRepl, seq_len(nrow(summaryTable)))), ]
@@ -359,20 +366,29 @@ formatSummaryStatisticsTableFlextable <- function(
 	# extract header (in case multiple 'colVar' specified)
 	header <- sapply(colnames(summaryTable), function(x){
 		res <- strsplit(x, split = "_")[[1]]
-		# remove empty header
-		res[!res %in% c("", "NA")] #formatSummaryStatisticsTable
+		# remove empty header - if they are the last element(s) in the column
+		# otherwise keep it for alignment of column groups in each header row
+		isEmpty <- rev(res) %in% c("", "NA")
+		if(all(isEmpty)){
+		  res <- ""
+		}else if(any(isEmpty)){
+		  idxFirst <- min(which(!isEmpty))
+		  res <- res[seq.int(from = length(res) - idxFirst + 1)]
+		}
+		res[which(res == "NA")] <- "" # convert NA -> empty in each column header
+		return(res)
 	}, simplify = FALSE)
-	nRowsHeader <- max(sapply(header, length))
-	# in less elements in one column, replicate the first element (to have it merged in final ft)
-	headerDf <- as.data.frame(
-		do.call(cbind, 
-			lapply(header, function(x){
-				x1 <- if(length(x) == 0)	""	else	x[1] # fix in case var is empty
-				c(rep(x1, nRowsHeader - length(x)), x)
-			}
-		))
-	, stringsAsFactors = FALSE)
+	nRowsHeaderMax <- max(sapply(header, length))
+	# if less elements in one column, add missing (header will be top vertically aligned)
+	header <- lapply(header, function(x){
+	  if(length(x) == 0) x <- ""
+	  c(x, rep(NA_character_, nRowsHeaderMax - length(x)))
+	})
+	headerDf <- do.call(cbind.data.frame, header)
 	colnames(headerDf) <- colnames(summaryTable)
+	
+	emptyRows <- rowSums(is.na(headerDf) | headerDf == "") == ncol(headerDf)
+	headerDf <- headerDf[!emptyRows, , drop = FALSE]
 	
 	# attributes required when converting table to flextable:
 	attributes(summaryTable)$summaryTable$header <- headerDf
@@ -391,7 +407,7 @@ formatSummaryStatisticsTableFlextable <- function(
 		vLineParams <- lapply(seq_len(nrow(headerDf)-1), function(i){
 			idx <- diff(as.numeric(factor(unlist(headerDf[i, ]), exclude = "")))
 			j <- which(idx != 0)
-			if(!all(idx == 0))	list(i = i:nrow(headerDf), part = "header", j = j)
+			if(!all(idx == 0, na.rm = TRUE))	list(i = i:nrow(headerDf), part = "header", j = j)
 		})
 		if(length(vLineParams) > 0)
 			vLineParams <- c(vLineParams, list(list(j = vLineParams[[length(vLineParams)]]$j, part = "body")))

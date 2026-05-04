@@ -126,10 +126,16 @@ Depending on \code{outputType}:
 Currently only the height is used (e.g. \code{c(NA, 4)})
 }}}
 
-\item{columnsWidth}{(expert mode) Column widths of the table. This is only used 
-for flextable and DT tables.\cr
-For flextable, note that the widths should be set to fit into the document page
-(see \code{\link{getDimPage}}).}
+\item{columnsWidth}{Column widths of the table, for \code{outputType}:
+\itemize{
+\item{'flextable': the widths can be specified either:
+ \itemize{
+ \item{in percentage: the sum of the widths should be 1}
+ \item{in inch: the sum should be the page width (see \code{\link{getDimPage}})}
+} If the widths are not specified for all columns, the width of the remaining last
+ columns is set such as the width of the total table is the page width.}
+\item{'DT': see \code{\link[clinUtils]{getClinDT}}}
+}}
 
 \item{labelVars}{(optional) Named character vector with label for
 the row, column variable(s) or variable(s) to summarize. \cr

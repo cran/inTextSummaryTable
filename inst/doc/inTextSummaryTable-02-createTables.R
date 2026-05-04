@@ -196,7 +196,13 @@
 		var = "AGE",
 		stats = "mean (sd)"
 	)
-
+	
+	# mean and sd in separated rows
+	getSummaryStatisticsTable(
+		data = dataSL,
+		var = "AGE",
+		stats = c("Mean", "SD")
+	)
 
 ## ----getHelpStats2, eval = FALSE----------------------------------------------------------------------------------------------------------------------------------------
 # 

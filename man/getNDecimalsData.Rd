@@ -23,11 +23,11 @@ x <- c(0.99, 5.679, 50.45, 1450)
 getNDecimalsData(x)
 }
 \seealso{
-Other decimals: 
-\code{\link{formatPercentage}()},
-\code{\link{getMaxNDecimals}()},
-\code{\link{getMaxNDecimalsData}()},
-\code{\link{getNDecimals}()}
+Other decimals:
+\code{\link[=formatPercentage]{formatPercentage()}},
+\code{\link[=getMaxNDecimals]{getMaxNDecimals()}},
+\code{\link[=getMaxNDecimalsData]{getMaxNDecimalsData()}},
+\code{\link[=getNDecimals]{getNDecimals()}}
 }
 \author{
 Laure Cougnaud

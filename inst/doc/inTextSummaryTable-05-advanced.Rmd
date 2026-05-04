@@ -1,5 +1,5 @@
 ---
-title: "Advanced user in-text tables"
+title: "Advanced use of in-text tables"
 author: "Laure Cougnaud"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: 
@@ -9,7 +9,7 @@ output:
     toc_depth: 5
     number_sections: true
 vignette: >
-  %\VignetteIndexEntry{Advanced user of in-text tables}
+  %\VignetteIndexEntry{05 - Advanced use of in-text tables}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -19,15 +19,10 @@ the `inTextSummaryTable` package actually works. We would describe some of the
 functionalities less exposed to the users.
 
 We assume you are already familiar on how to create and export tables, otherwise
-we advise to first check out the dedicated vignettes for creating and
-exporting tables. The vignettes are accessible with the commands below.
+we advise to first check out the dedicated vignettes:
 
-```{r getVignette, eval = FALSE}
-
-vignette("inTextSummaryTable-createTables", "inTextSummaryTable")
-vignette("inTextSummaryTable-exportTables", "inTextSummaryTable")
-
-```
+* [Creation of in-text tables](inTextSummaryTable-02-createTables.html)
+* [Exporting of in-text tables](inTextSummaryTable-04-exportTables.html)
 
 We will first create example data sets to show how the exporting functionalities
 work. The data sets used are available in the `clinUtils` package.
@@ -147,8 +142,8 @@ export(
 
 ```	
 
-Please see the vignette: `inTextSummaryTable-exportTables` for more
-information on the different export types available.
+Please see the vignette: [Exporting of in-text tables](inTextSummaryTable-04-exportTables.html)
+for more information on the different export types available.
 
 # Combine summary statistics table
 

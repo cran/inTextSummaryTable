@@ -371,6 +371,42 @@ test_that("Row totals are correctly included in the header row in a flextable su
 	
 })
 
+test_that("Row totals are correctly included in the header rows when requested for a subset of the row variables in a flextable summary table", {
+  
+  summaryTable <- data.frame(
+    PARCAT1 = factor(c("A", "A", "Total", "A"), levels = c("Total", "A")),
+    PARCAT2 = factor(c("A1", "A2", "Total", "Total"), levels = c("Total", "A1", "A2")),
+    PARCAT3 = c("A2", "A3", "Total", "Total"),
+    PARAM = c("a", "b", "Total", "Total"),
+    n = c("1", "2", "3", "3")
+  )
+  
+  ft <- exportSummaryStatisticsTable(
+    summaryTable = summaryTable,
+    rowVar = c("PARCAT1", "PARCAT2", "PARCAT3", "PARAM"),
+    rowVarTotalInclude = c("PARCAT1", "PARCAT2")
+  )
+  expect_equal(
+    object = ft$body$dataset,
+    expected = data.frame(
+      c("Any PARCAT1, PARCAT2, PARCAT3, PARAM", "A", "A1", "A2", "a", "A2", "A3", "b"),
+      c("3", "3", NA_character_, NA_character_, "1", NA_character_, NA_character_, "2"),
+      stringsAsFactors = FALSE
+    ),
+    check.attributes = FALSE
+  )
+  
+  expect_setequal(
+    object = ft$body$styles$cells$border.width.top$data[2, ],
+    expected = 1
+  )
+  expect_setequal(
+    object = ft$body$styles$cells$border.width.top$data[-2, ],
+    expected = 0
+  )
+  
+})
+
 test_that("Row totals are correctly included in separated rows in a flextable summary table", {
 			
 	summaryTable <- data.frame(
@@ -1831,7 +1867,7 @@ test_that("Column headers of a summary table with identical elements across cons
   # rows are correctly merged:
   expect_equal(
     ft$header$spans$columns,
-    cbind(c(3, 0, 0), c(1, 1, 1), c(1, 1, 1), c(1, 2, 0), c(1, 1, 1), c(1, 1, 1))
+    cbind(c(1, 1, 1), c(1, 1, 1), c(1, 1, 1), c(1, 2, 0), c(1, 1, 1), c(1, 1, 1))
   )
   
 })
@@ -1868,6 +1904,40 @@ test_that("Column headers of a summary table with identical elements across cons
   
 })
 
+test_that("Column headers of a summary table with less elements than row variables are not replicated", {
+  
+  summaryTable <- data.frame(
+    TRT01P = c(rep("TRTX", 2), rep("Placebo", 4)),
+    TRT02P = c(rep("TRTX", 4), rep("Placebo", 2)),
+    PARCAT = "Z",
+    PARAM = "X",
+    variable = "A",
+    variableGroup = rep(c("a", "b"), times = 3),
+    n = c("1", "2", "3", "4", "5", "6"),
+    stringsAsFactors = FALSE
+  )		
+  
+  ft <- exportSummaryStatisticsTable(
+    summaryTable = summaryTable,
+    rowVar = c("PARCAT", "PARAM", "variable", "variableGroup"),
+    statsVar = "n",
+    colVar = c("TRT01P", "TRT02P"),
+    vline = "auto"
+  )
+  
+  expect_equal(
+    ft$header$dataset,
+    data.frame(
+      c("PARCAT", "PARAM", "variable", "variableGroup"),
+      c("Placebo", "Placebo", NA_character_, NA_character_),
+      c("Placebo", "TRTX", NA_character_, NA_character_),
+      c("TRTX", "TRTX", NA_character_, NA_character_)
+    ),
+    check.attributes = FALSE
+  )
+  
+})
+
 test_that("Column headers of a summary table are not merged if specified", {
   
   summaryTable <- data.frame(
@@ -1892,3 +1962,5 @@ test_that("Column headers of a summary table are not merged if specified", {
   expect_setequal(object = ft$header$spans$columns, expected = 1)
   
 })
+
+

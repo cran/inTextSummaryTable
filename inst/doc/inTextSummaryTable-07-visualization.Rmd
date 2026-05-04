@@ -1,5 +1,5 @@
 ---
-title: "Visualization functionalities"
+title: "Visualization of in-text table summaries"
 author: "Laure Cougnaud"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: 
@@ -9,7 +9,7 @@ output:
     toc_depth: 5
     number_sections: true
 vignette: >
-  %\VignetteIndexEntry{Visualization functionalities}
+  %\VignetteIndexEntry{07 - Visualization of in-text table summaries}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -213,14 +213,8 @@ the R script, without the need to copy-paste input arguments in the
 different visualizations.
 
 If you want to **know more about aesthetics options of the
-`inTextSummaryTable`**, there is a dedicated vignette available
-[here](../doc/inTextSummaryTable-aesthetics.html)) or with
-
-```{r getVignetteAesthetics, eval = FALSE}
-
-vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
-
-```
+`inTextSummaryTable`**, see the vignette: 
+[Customization of aesthetics of in-text tables](inTextSummaryTable-06-aesthetics.html)
 
 If you want to **know more about default options from the
 `clinUtils`**, you may check out the vignette of the package:

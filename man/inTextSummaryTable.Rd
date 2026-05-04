@@ -14,10 +14,10 @@ These tables can be exported as in-text table to a Clinical Study Report
 \details{
 \itemize{
 \item{To get started with the package, see:\cr
-\code{vignette("inTextSummaryTable-introduction", package = "inTextSummaryTable")}}
+\code{vignette("inTextSummaryTable-01-introduction", package = "inTextSummaryTable")}}
 \item{To get example code for standard in-text tables created with the package, 
 see:\cr
-\code{vignette("inTextSummaryTable-standardTables", package = "inTextSummaryTable")}}
+\code{vignette("inTextSummaryTable-03-standardTables", package = "inTextSummaryTable")}}
 \item{The main function: \code{\link{getSummaryStatisticsTable}} enables
 to create ready in-text table.}
 }
@@ -35,6 +35,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Laure Cougnaud \email{laure.cougnaud@openanalytics.eu}
   \item Michela Pasetto \email{michela.pasetto@openanalytics.eu}
 }
 

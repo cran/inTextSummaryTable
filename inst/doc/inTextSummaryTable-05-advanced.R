@@ -1,9 +1,3 @@
-## ----getVignette, eval = FALSE------------------------------------------------
-# 
-# vignette("inTextSummaryTable-createTables", "inTextSummaryTable")
-# vignette("inTextSummaryTable-exportTables", "inTextSummaryTable")
-# 
-
 ## ----options, echo = FALSE----------------------------------------------------------------------------------------------------------------------------------------------
 
 library(knitr)

@@ -72,6 +72,31 @@ test_that("The statistic of interest is specified as a string from the default s
 	
 })
 
+test_that("The statistic of interest is specified as vector of character", {
+  
+  set.seed(123)
+  data <- data.frame(AVAL = rnorm(5), USUBJID = seq.int(5))
+  
+  expect_silent(
+    summaryTableString <- computeSummaryStatisticsTable(
+      var = "AVAL",
+      data = data,
+      stats = c("Mean", "SD")
+    )
+  )
+  
+  # specification equivalent to:
+  stats <- getStatsData(type =  c("Mean", "SD"), data = data, var = "AVAL")$AVAL
+  summaryTableGetStats <- computeSummaryStatisticsTable(
+    var = "AVAL",
+    data = data,
+    stats = stats
+  )
+  expect_identical(summaryTableString, summaryTableGetStats)
+  
+})
+
+
 test_that("An error is generated if the statistic of interest is not available in the default set", {
 			
 	set.seed(123)
@@ -86,6 +111,62 @@ test_that("An error is generated if the statistic of interest is not available i
 		"should be one of .*summary.*, .*count.*"
 	)
 			
+})
+
+test_that("The statistic of interest specified as a string: geometric mean, if requested, is correctly added to the default set", {
+  
+  data <- data.frame(AVAL = c(1, 3, 4, 10, 100), USUBJID = seq.int(5))
+  
+  expect_silent(
+    summaryTableString <- computeSummaryStatisticsTable(
+      var = "AVAL",
+      data = data,
+      stats = "Geometric Mean"
+    )
+  )
+  
+  # is geometric mean added to the default set?
+  expect_equal(
+    object = subset(summaryTableString, !isTotal)$statGeomMean,
+    expected = inTextSummaryTable::geomMean(data$AVAL)
+  )
+  
+  # specification equivalent to:
+  summaryTableGetStats <- computeSummaryStatisticsTable(
+    var = "AVAL",
+    data = data,
+    stats = getStatsData("Geometric Mean", data = data, var = "AVAL")$AVAL
+  )
+  expect_identical(summaryTableString, summaryTableGetStats)
+  
+})
+
+test_that("The statistic of interest specified as a string: geometric standard deviation, if requested, is correctly added to the default set", {
+  
+  data <- data.frame(AVAL = c(1, 3, 4, 10, 100), USUBJID = seq.int(5))
+  
+  expect_silent(
+    summaryTableString <- computeSummaryStatisticsTable(
+      var = "AVAL",
+      data = data,
+      stats = "Geometric SD"
+    )
+  )
+  
+  # is geometric SD added to the default set?
+  expect_equal(
+    object = subset(summaryTableString, !isTotal)$statGeomSD,
+    expected = inTextSummaryTable::geomSD(data$AVAL)
+  )
+  
+  # specification equivalent to:
+  summaryTableGetStats <- computeSummaryStatisticsTable(
+    var = "AVAL",
+    data = data,
+    stats = getStatsData("Geometric SD", data = data, var = "AVAL")$AVAL
+  )
+  expect_identical(summaryTableString, summaryTableGetStats)
+  
 })
 
 test_that("The statistic of interest as a copy of a default statistic is correctly computed	", {

@@ -28,12 +28,12 @@ The geometric mean is computed as:
 geomMean(rlnorm(n = 1000, meanlog = 0, sdlog = 1))
 }
 \seealso{
-Other stats utility functions: 
-\code{\link{cv}()},
-\code{\link{geomCV}()},
-\code{\link{geomSD}()},
-\code{\link{geomSE}()},
-\code{\link{se}()}
+Other stats utility functions:
+\code{\link[=cv]{cv()}},
+\code{\link[=geomCV]{geomCV()}},
+\code{\link[=geomSD]{geomSD()}},
+\code{\link[=geomSE]{geomSE()}},
+\code{\link[=se]{se()}}
 }
 \author{
 Laure Cougnaud

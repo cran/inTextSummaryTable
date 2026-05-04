@@ -46,26 +46,6 @@
 	getLabelVar(var = "USUBJID", labelVars = labelVars)
 
 
-## ----getVignetteExport, eval = FALSE------------------------------------------------------------------------------------------------------------------------------------
-# 
-# vignette("inTextSummaryTable-exportTables", "inTextSummaryTable")
-# 
-
-## ----getVignetteAdvanced, eval = FALSE----------------------------------------------------------------------------------------------------------------------------------
-# 
-# vignette("inTextSummaryTable-advanced", "inTextSummaryTable")
-# 
-
-## ----getVignetteVisualization, eval = FALSE-----------------------------------------------------------------------------------------------------------------------------
-# 
-# vignette("inTextSummaryTable-visualization", "inTextSummaryTable")
-# 
-
-## ----getVignetteAesthetics, eval = FALSE--------------------------------------------------------------------------------------------------------------------------------
-# 
-# vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
-# 
-
 ## ----includeSessionInfo, echo = FALSE, results = "asis"-----------------------------------------------------------------------------------------------------------------
 print(sessionInfo())
 

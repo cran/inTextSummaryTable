@@ -32,11 +32,11 @@ xPerc <- c(NA, 0, 100, 99.95, 0.012, 34.768)
 formatPercentage(x = xPerc)
 }
 \seealso{
-Other decimals: 
-\code{\link{getMaxNDecimals}()},
-\code{\link{getMaxNDecimalsData}()},
-\code{\link{getNDecimals}()},
-\code{\link{getNDecimalsData}()}
+Other decimals:
+\code{\link[=getMaxNDecimals]{getMaxNDecimals()}},
+\code{\link[=getMaxNDecimalsData]{getMaxNDecimalsData()}},
+\code{\link[=getNDecimals]{getNDecimals()}},
+\code{\link[=getNDecimalsData]{getNDecimalsData()}}
 }
 \author{
 Laure Cougnaud

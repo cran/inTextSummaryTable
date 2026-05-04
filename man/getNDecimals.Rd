@@ -57,11 +57,11 @@ getNDecimals(x, useRule = TRUE, useData = FALSE)
 getNDecimals(x, useRule = TRUE, useData = TRUE)
 }
 \seealso{
-Other decimals: 
-\code{\link{formatPercentage}()},
-\code{\link{getMaxNDecimals}()},
-\code{\link{getMaxNDecimalsData}()},
-\code{\link{getNDecimalsData}()}
+Other decimals:
+\code{\link[=formatPercentage]{formatPercentage()}},
+\code{\link[=getMaxNDecimals]{getMaxNDecimals()}},
+\code{\link[=getMaxNDecimalsData]{getMaxNDecimalsData()}},
+\code{\link[=getNDecimalsData]{getNDecimalsData()}}
 }
 \author{
 Laure Cougnaud

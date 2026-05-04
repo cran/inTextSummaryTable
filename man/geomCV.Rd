@@ -29,12 +29,12 @@ The geometric coefficient of variation is computed as:
 geomCV(rlnorm(n = 1000, meanlog = 0, sdlog = 1))
 }
 \seealso{
-Other stats utility functions: 
-\code{\link{cv}()},
-\code{\link{geomMean}()},
-\code{\link{geomSD}()},
-\code{\link{geomSE}()},
-\code{\link{se}()}
+Other stats utility functions:
+\code{\link[=cv]{cv()}},
+\code{\link[=geomMean]{geomMean()}},
+\code{\link[=geomSD]{geomSD()}},
+\code{\link[=geomSE]{geomSE()}},
+\code{\link[=se]{se()}}
 }
 \author{
 Laure Cougnaud

@@ -9,7 +9,7 @@ output:
     toc_depth: 5
     number_sections: true
 vignette: >
-  %\VignetteIndexEntry{Create in-text tables}
+  %\VignetteIndexEntry{02 - Creation of in-text tables}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -366,7 +366,13 @@ Please see below examples of commonly used statistics.
 		var = "AGE",
 		stats = "mean (sd)"
 	)
-
+	
+	# mean and sd in separated rows
+	getSummaryStatisticsTable(
+		data = dataSL,
+		var = "AGE",
+		stats = c("Mean", "SD")
+	)
 ```
 
 ## Custom statistics formatting (Advanced)

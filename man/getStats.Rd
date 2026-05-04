@@ -50,7 +50,7 @@ in the summary table.
 }
 \description{
 This set of statistics can be passed directly to the \code{stats} parameter
-of the of the package functions.
+of the package functions.
 }
 \examples{
 ## default set of statistics are available for:
@@ -70,6 +70,9 @@ getStats("mean (sd)")
 getStats("median (range)")
 getStats("median\n(range)")
 getStats(c("Mean", "SE"))
+# for continuous variable with log-normal distribution:
+getStats(c("Geometric Mean", "Geometric SD"))
+getStats("geometric mean (geometric sd)")
 
 ## to not include statistic name in the table
 getStats("median\n(range)", includeName = FALSE)

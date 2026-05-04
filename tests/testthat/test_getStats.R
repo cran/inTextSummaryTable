@@ -119,6 +119,34 @@ test_that("The mean is correctly formatted with specified number of decimals as 
 			
 })
 
+test_that("The geometric mean is correctly formatted with specified number of decimals as number", {
+  
+  stat <- getStats(type = "Geometric Mean", nDecCont = 4)
+  summaryTable <- data.frame(statGeomMean = c(1098, 100.567567))
+  expect_equal(
+    eval(expr = stat$`Geometric Mean`, envir = summaryTable),
+    c("1098.00000", "100.56757")
+  )
+  
+})
+
+test_that("The geometric mean is correctly formatted with specified number of decimals as function", {
+  
+  stat <- getStats(
+    type = "Geometric Mean", 
+    x = seq.int(10),
+    nDecCont = function(x) 2
+  )
+  
+  summaryTable <- data.frame(statGeomMean = c(1098, 100.567567))
+  
+  expect_equal(
+    eval(expr = stat$`Geometric Mean`, envir = summaryTable),
+    c("1098.000", "100.568")
+  )
+  
+})
+
 test_that("The median is correctly formatted with specified number of decimals as number", {
 			
 	stat <- getStats(type = "Median", nDecCont = 4)
@@ -139,6 +167,17 @@ test_that("The standard deviation is correctly formatted with specified number o
 		c("1098.00000", "100.56757")
 	)
 			
+})
+
+test_that("The geometric standard deviation is correctly formatted with specified number of decimals as number", {
+  
+  stat <- getStats(type = "Geometric SD", nDecCont = 4)
+  summaryTable <- data.frame(statGeomSD = c(1098, 100.567567))
+  expect_equal(
+    eval(expr = stat$`Geometric SD`, envir = summaryTable),
+    c("1098.00000", "100.56757")
+  )
+  
 })
 
 test_that("The standard error is correctly formatted with specified number of decimals as number", {

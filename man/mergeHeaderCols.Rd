@@ -7,7 +7,8 @@
 mergeHeaderCols(x, mapping)
 }
 \arguments{
-\item{x}{a \code{flextable} object}
+\item{x}{a 'flextable' object, see \link[flextable]{flextable-package} to learn how to create
+'flextable' object.}
 
 \item{mapping}{a \code{data.frame} specyfing for each colname
 content of the column.}

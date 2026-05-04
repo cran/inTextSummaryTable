@@ -126,7 +126,7 @@ getStatsData <- function(
 #'  Get default set of statistics for one particular variable.
 #' 
 #' This set of statistics can be passed directly to the \code{stats} parameter
-#' of the of the package functions.
+#' of the package functions.
 #' @param type Character vector with type of statistics (multiple are possible).
 #' Available statistics are specified in the section 'Formatted statistics' and
 #' formatting in 'Statistics formatting' in
@@ -170,6 +170,9 @@ getStatsData <- function(
 #' getStats("median (range)")
 #' getStats("median\n(range)")
 #' getStats(c("Mean", "SE"))
+#' # for continuous variable with log-normal distribution:
+#' getStats(c("Geometric Mean", "Geometric SD"))
+#' getStats("geometric mean (geometric sd)")
 #' 
 #' ## to not include statistic name in the table
 #' getStats("median\n(range)", includeName = FALSE)
@@ -224,22 +227,34 @@ getStats <- function(
 		),
 		# statistics for continuous variable
 		if(!is.null(nDecContBase)){
-			list(
-				Mean = bquote(roundHalfUpTextFormat(statMean, .(nDecContBase + 1))),
-				Median = bquote(roundHalfUpTextFormat(statMedian, .(nDecContBase + 1))),
-				SD = bquote(roundHalfUpTextFormat(statSD, .(nDecContBase + 1))),
-				SE = bquote(roundHalfUpTextFormat(statSE, .(nDecContBase + 2))),
-				Min = bquote(roundHalfUpTextFormat(statMin, .(nDecContBase))),
-				Max = bquote(roundHalfUpTextFormat(statMax, .(nDecContBase)))		
+			statsBase <- c(
+			  list(
+  				Mean = bquote(roundHalfUpTextFormat(statMean, .(nDecContBase + 1))),
+  				Median = bquote(roundHalfUpTextFormat(statMedian, .(nDecContBase + 1))),
+  				SD = bquote(roundHalfUpTextFormat(statSD, .(nDecContBase + 1))),
+  				SE = bquote(roundHalfUpTextFormat(statSE, .(nDecContBase + 2))),
+  				Min = bquote(roundHalfUpTextFormat(statMin, .(nDecContBase))),
+  				Max = bquote(roundHalfUpTextFormat(statMax, .(nDecContBase)))
+  			),
+  			if(any(grepl("Geometric Mean", type, ignore.case = TRUE)))
+  				list(`Geometric Mean` = bquote(roundHalfUpTextFormat(statGeomMean, .(nDecContBase + 1)))),
+			  if(any(grepl("Geometric SD", type, ignore.case = TRUE)))
+			    list(`Geometric SD` = bquote(roundHalfUpTextFormat(statGeomSD, .(nDecContBase + 1))))
 			)
 		}else{
-			list(
-				Mean = quote(formatC(statMean)),
-				Median = quote(formatC(statMedian)),
-				SD = quote(formatC(statSD)),
-				SE = quote(formatC(statSE)),
-				Min = quote(formatC(statMin)),
-				Max = quote(formatC(statMax))
+			c(
+			  list(
+  				Mean = quote(formatC(statMean)),
+  				Median = quote(formatC(statMedian)),
+  				SD = quote(formatC(statSD)),
+  				SE = quote(formatC(statSE)),
+  				Min = quote(formatC(statMin)),
+  				Max = quote(formatC(statMax))
+  			),
+			  if(any(grepl("Geometric Mean", type, ignore.case = TRUE)))
+				  list(`Geometric Mean` = quote(formatC(statGeomMean))),
+			  if(any(grepl("Geometric SD", type, ignore.case = TRUE)))
+				  list(`Geometric SD` = quote(formatC(statGeomSD)))
 			)
 		}
 	)
@@ -253,6 +268,7 @@ getStats <- function(
 			"m (%)",
 			"median (range)", "median\n(range)",
 			"mean (se)", "mean (sd)", "mean (range)",
+			"geometric mean (geometric sd)",
 			"(min, max)",
 			names(statsBase)
 		),
@@ -316,6 +332,9 @@ getStats <- function(
 			),
 			`mean (sd)` = list('Mean (SD)' = 
 				bquote(paste0(.(statsBase$Mean), " (", .(statsBase$SD),  ")"))
+			),
+			`geometric mean (geometric sd)` = list('Geometric Mean (Geometric SD)' = 
+        bquote(paste0(.(statsBase$`Geometric Mean`), " (", .(statsBase$`Geometric SD`),  ")"))
 			),
 			`mean (range)` = list('Mean (range)' = 
 				bquote(paste0(

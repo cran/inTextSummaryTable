@@ -1,5 +1,5 @@
 ---
-title: "Exporting in-text tables"
+title: "Exporting of in-text tables"
 author: "Laure Cougnaud"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: 
@@ -9,7 +9,7 @@ output:
     toc_depth: 5
     number_sections: true
 vignette: >
-  %\VignetteIndexEntry{Exporting in-text tables}
+  %\VignetteIndexEntry{04 - Exporting of in-text tables}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -46,19 +46,11 @@ In particular, we will cover
 * how to **filter and split** exported tables
 
 We assume you are already familiar on how to create tables, otherwise we advise
-to first check out the dedicated vignette on how to make tables, available
-[here](../doc/inTextSummaryTable-createTables.html)) or accessible with the
-commands below.
-
-```{r getVignette, eval = FALSE}
-
-vignette("inTextSummaryTable-createTables", "inTextSummaryTable")
-
-```
+to first check out the dedicated vignette on how to make tables: 
+[Creation of in-text tables](inTextSummaryTable-02-createTables.html)
 
 We will first create example data sets to show how the exporting functionalities
 work. The data sets used are available in the `clinUtils` package.
-
 
 # Load packages and data
 
@@ -160,12 +152,12 @@ system requirement are satisfied:
 * for a `docx` document (`output_type`):
   [pandoc](https://pandoc.org/installing.html) version >= 2.0 (see [`rmarkdown`
   documentation for
-  Word](https://bookdown.org/yihui/rmarkdown/word-document.html))
+  Word](https://yihui.org/rmarkdown/word-document))
 * for `pptx` document: [pandoc](https://pandoc.org/installing.html) version >=
   2.4 (see [`rmarkdown` documentation for
-  Powerpoint](https://bookdown.org/yihui/rmarkdown/powerpoint-presentation.html))
+  Powerpoint](https://yihui.org/rmarkdown/powerpoint-presentation))
 
-A `rmarkdown` chunk can contains only one `flextable` object. To include a list
+A `rmarkdown` chunk can display only one `flextable` object. To include a list
 of `flextable` in a `rmarkdown` document, the function `knitPrintListObjects` of
 the `clinUtils` package can be used.
 
@@ -460,13 +452,7 @@ getOption("inTextSummaryTable.pageDim.presentation")
 ## Further info on asthetics
 
 For further information about the aesthetics settings of
-the package, a dedicated vignette is available at 
-
-```{r getVignetteAesthetics, eval = FALSE}
-
-vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
-
-```
+the package, see the vignette: [Customization of aesthetics of in-text tables](inTextSummaryTable-06-aesthetics.html)
 
 ## Set back default palettes
 

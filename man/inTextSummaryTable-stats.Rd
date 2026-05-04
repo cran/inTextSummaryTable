@@ -30,6 +30,10 @@ statistics' are reported in the summary table:
 \item{'statMedian': variable median}
 \item{'statMin': variable minimum}
 \item{'statMax': variable maximum}
+\item{'statGeomMean' (only if requested): variable 
+geometric mean (with \code{\link[inTextSummaryTable]{geomMean}})}
+\item{'statGeomSD' (only if requested): variable geometric 
+standard deviation (with \code{\link[inTextSummaryTable]{geomSD}})}
 }
 During the computation of the statistics,
 if multiple and different values are available for a specific variable
@@ -73,6 +77,9 @@ statistics can be reported in the final output table.
 \item{'SD': formatted standard deviation}
 \item{'Min': formatted minimum}
 \item{'Max': formatted maximum}
+\item{'Geometric Mean' (only if requested): formatted geometric mean}
+\item{'Geometric SD' (only if requested): formatted geometric standard 
+deviation}
 }}
 
 \item{multiple: 
@@ -88,6 +95,8 @@ statistics can be reported in the final output table.
 \item{'median (range)': median (minimum,maximum)}
 \item{'median\\n(range)': median and (minimum, maximum) below (linebreak)}
 \item{'mean (sd)': mean and standard deviation}
+\item{'geometric mean (geometric sd)': geometric mean and geometric standard 
+deviation}
 \item{'mean (se)': mean and standard error}
 \item{'mean (range)': mean and (minimum, maximum)}
 \item{'(min, max)': (minimum, maximum)}
@@ -146,7 +155,7 @@ and typically displayed inside the final table.
 based on:
 \itemize{
 \item{'Min', 'Max': \code{nDecCont}}
-\item{'Mean', 'SD', 'Median': \code{nDecCont} + 1}
+\item{'Mean', 'SD', 'Median', 'Geometric Mean', 'Geometric SD': \code{nDecCont} + 1}
 \item{'SE': \code{nDecCont} + 2}
 }
 Note that the number of decimals is extracted

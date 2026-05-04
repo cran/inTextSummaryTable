@@ -8,10 +8,10 @@
 #' @details
 #' \itemize{
 #' \item{To get started with the package, see:\cr
-#' \code{vignette("inTextSummaryTable-introduction", package = "inTextSummaryTable")}}
+#' \code{vignette("inTextSummaryTable-01-introduction", package = "inTextSummaryTable")}}
 #' \item{To get example code for standard in-text tables created with the package, 
 #' see:\cr
-#' \code{vignette("inTextSummaryTable-standardTables", package = "inTextSummaryTable")}}
+#' \code{vignette("inTextSummaryTable-03-standardTables", package = "inTextSummaryTable")}}
 #' \item{The main function: \code{\link{getSummaryStatisticsTable}} enables
 #' to create ready in-text table.}
 #' }

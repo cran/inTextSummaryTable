@@ -30,11 +30,11 @@ getMaxNDecimals(x, useRule = TRUE, useData = FALSE)
 getMaxNDecimals(x, useRule = TRUE, useData = TRUE)
 }
 \seealso{
-Other decimals: 
-\code{\link{formatPercentage}()},
-\code{\link{getMaxNDecimalsData}()},
-\code{\link{getNDecimals}()},
-\code{\link{getNDecimalsData}()}
+Other decimals:
+\code{\link[=formatPercentage]{formatPercentage()}},
+\code{\link[=getMaxNDecimalsData]{getMaxNDecimalsData()}},
+\code{\link[=getNDecimals]{getNDecimals()}},
+\code{\link[=getNDecimalsData]{getNDecimalsData()}}
 }
 \author{
 Laure Cougnaud

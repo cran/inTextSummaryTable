@@ -66,6 +66,7 @@ convertSummaryStatisticsTableToFlextable <- function(
 	)
 	ft <- ftWithHeader$ft
 	colsDataFt <- ftWithHeader$colsData
+	nCols <- length(colsDataFt)
 	getNewCol <- function(initCol)
 		na.omit(names(colsDataFt)[match(initCol, colsDataFt)])
 	
@@ -243,19 +244,29 @@ convertSummaryStatisticsTableToFlextable <- function(
 		pageDim = pageDim
 	)
 	
-	# adjust to fit in document:
-	if(!is.null(columnsWidth) && length(columnsWidth) != length(colsDataFt)){
-		warning("The width is not specified for all columns of the table,",
-			"so the specified 'columnsWidth' is ignored.")
-		columnsWidth <- NULL
+	# set columns width
+	if(!is.null(columnsWidth) && length(columnsWidth) > length(colsDataFt)){
+	  warning("The width is specified for too many columns of the table,", 
+	    "so the specified 'columnsWidth' is ignored.")
+	  columnsWidth <- NULL
 	}
+	
+	# adjust to fit in document:
+	widthPage <- getDimPage(
+	  type = "width", landscape = landscape, margin = margin,
+	  pageDim = pageDim,
+	  style = style
+	)
 	if(is.null(columnsWidth)){
-		widthPage <- getDimPage(
-			type = "width", landscape = landscape, margin = margin,
-			pageDim = pageDim,
-			style = style
-		)
-		columnsWidth <- widthPage/length(colsDataFt)
+	  columnsWidth <- rep(widthPage/nCols, nCols)
+	}else if(sum(columnsWidth) <= 1){
+	  columnsWidth <- columnsWidth * widthPage
+	}
+	# fill in if not specified for all columns
+	if(length(columnsWidth) < nCols){
+	  nColsMissing <- nCols - length(columnsWidth)
+	  columnsWidth <- c(columnsWidth, 
+      rep((widthPage-sum(columnsWidth))/nColsMissing, times = nColsMissing))
 	}
 	ft <- width(ft, j = names(colsDataFt), width = columnsWidth)
 	

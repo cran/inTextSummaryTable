@@ -27,12 +27,12 @@ The geometric standard deviation is computed as:
 geomSD(rlnorm(n = 1000, meanlog = 0, sdlog = 1))
 }
 \seealso{
-Other stats utility functions: 
-\code{\link{cv}()},
-\code{\link{geomCV}()},
-\code{\link{geomMean}()},
-\code{\link{geomSE}()},
-\code{\link{se}()}
+Other stats utility functions:
+\code{\link[=cv]{cv()}},
+\code{\link[=geomCV]{geomCV()}},
+\code{\link[=geomMean]{geomMean()}},
+\code{\link[=geomSE]{geomSE()}},
+\code{\link[=se]{se()}}
 }
 \author{
 Laure Cougnaud

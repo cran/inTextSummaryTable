@@ -1,3 +1,13 @@
+3.4.0
+  o 'stats':
+    - support 'stats' as a character vector of length > 1
+    - add 'Geometric Mean' and 'Geometric SD'
+  o support column widths as percentage or for a subset of the columns
+  o column header:
+    - fix in case more row variables than column groups
+    - top vertical alignment (not centered)
+  o fix: no replicated row header when total included for a subset of the row variables
+  o vignettes: number and fix link for CRAN
 3.3.5
   o CRAN use Suggests package conditionally:
     - vignette: check if 'extrafont' package is loaded

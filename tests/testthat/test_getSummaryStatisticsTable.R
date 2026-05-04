@@ -95,6 +95,41 @@ test_that("The width of the columns is correctly set", {
 			
 })
 
+test_that("The width of the columns specified as percentage is correctly set", {
+  
+  data <- data.frame(
+    TRT = c("A", "B"),
+    USUBJID = c("1", "2"),
+    stringsAsFactors = FALSE
+  )
+  columnsWidth <- c(0.8, 0.1, 0.1)
+  ft <- getSummaryStatisticsTable(data = data, colVar = "TRT", columnsWidth = columnsWidth)
+  
+  # widths are converted to inches for flextable
+  expect_equal(
+    object = ft$body$colwidths, 
+    expected = columnsWidth * getDimPage(type = "width")
+  )
+  
+})
+
+test_that("The width of the columns specified for a subset of the columns is correctly set", {
+  
+  data <- data.frame(
+    TRT = c("A", "B"),
+    USUBJID = c("1", "2"),
+    stringsAsFactors = FALSE
+  )
+  columnsWidth <- 2
+  ft <- getSummaryStatisticsTable(data = data, colVar = "TRT", columnsWidth = columnsWidth)
+  
+  # width is set as specified for the first column
+  expect_equal(object = ft$body$colwidths[1], expected = columnsWidth)
+  # total width = page width
+  expect_equal(object = sum(ft$body$colwidths), expected = getDimPage(type = "width"))
+  
+})
+
 test_that("A warning is generated if the width of the columns is not correctly set", {
 			
 	data <- data.frame(
@@ -102,7 +137,7 @@ test_that("A warning is generated if the width of the columns is not correctly s
 		USUBJID = c("1", "2"),
 		stringsAsFactors = FALSE
 	)
-	columnsWidth <- c(2, 8)
+	columnsWidth <- c(2, 8, 4, 5)
 	expect_warning(
 		object = getSummaryStatisticsTable(
 			data = data, 

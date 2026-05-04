@@ -1,5 +1,5 @@
 ---
-title: "Aesthetics"
+title: "Customization of aesthetics of in-text tables"
 author: "Michela Pasetto and Laure Cougnaud"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: 
@@ -9,7 +9,7 @@ output:
     toc_depth: 5
     number_sections: true
 vignette: >
-  %\VignetteIndexEntry{Aesthetics}
+  %\VignetteIndexEntry{06 - Customization of aesthetics of in-text tables}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

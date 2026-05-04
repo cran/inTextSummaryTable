@@ -15,11 +15,6 @@ options(width = 170)
 options(warn = 1)
 
 
-## ----getVignette, eval = FALSE------------------------------------------------------------------------------------------------------------------------------------------
-# 
-# vignette("inTextSummaryTable-createTables", "inTextSummaryTable")
-# 
-
 ## ----loadPackages-------------------------------------------------------------------------------------------------------------------------------------------------------
 
 library(inTextSummaryTable)
@@ -224,11 +219,6 @@ pageDimCustom <- c(7.5, 13.32)
 options(inTextSummaryTable.pageDim.presentation = pageDimCustom)
 getOption("inTextSummaryTable.pageDim.presentation")
 
-
-## ----getVignetteAesthetics, eval = FALSE--------------------------------------------------------------------------------------------------------------------------------
-# 
-# vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
-# 
 
 ## ----aesthetics-backDefaultPalettes-------------------------------------------------------------------------------------------------------------------------------------
 

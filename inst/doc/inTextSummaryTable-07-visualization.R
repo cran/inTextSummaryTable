@@ -75,11 +75,6 @@ subjectProfileSummaryPlot(
 # )
 # 
 
-## ----getVignetteAesthetics, eval = FALSE--------------------------------------------------------------------------------------------------------------------------------
-# 
-# vignette("inTextSummaryTable-aesthetics", "inTextSummaryTable")
-# 
-
 ## ----getVignetteClinUtils, eval = FALSE---------------------------------------------------------------------------------------------------------------------------------
 # 
 # vignette("clinUtils-vignette", "clinUtils")

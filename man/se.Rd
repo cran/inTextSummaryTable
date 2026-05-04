@@ -23,12 +23,12 @@ The standard error of the mean is computed as:
 se(rnorm(1000))
 }
 \seealso{
-Other stats utility functions: 
-\code{\link{cv}()},
-\code{\link{geomCV}()},
-\code{\link{geomMean}()},
-\code{\link{geomSD}()},
-\code{\link{geomSE}()}
+Other stats utility functions:
+\code{\link[=cv]{cv()}},
+\code{\link[=geomCV]{geomCV()}},
+\code{\link[=geomMean]{geomMean()}},
+\code{\link[=geomSD]{geomSD()}},
+\code{\link[=geomSE]{geomSE()}}
 }
 \author{
 Laure Cougnaud

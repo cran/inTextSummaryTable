@@ -18,11 +18,11 @@ Get maximum number of decimals in a variable based on the data
 (\code{\link{getNDecimalsData}})
 }
 \seealso{
-Other decimals: 
-\code{\link{formatPercentage}()},
-\code{\link{getMaxNDecimals}()},
-\code{\link{getNDecimals}()},
-\code{\link{getNDecimalsData}()}
+Other decimals:
+\code{\link[=formatPercentage]{formatPercentage()}},
+\code{\link[=getMaxNDecimals]{getMaxNDecimals()}},
+\code{\link[=getNDecimals]{getNDecimals()}},
+\code{\link[=getNDecimalsData]{getNDecimalsData()}}
 }
 \author{
 Laure Cougnaud

@@ -230,11 +230,23 @@ computeSummaryStatisticsTable <- function(
 	}
 	
 	# get default set of statistics
-	if(is.character(stats) && length(stats) == 1){
+	if(is.character(stats)){
 		stats <- getStatsData(data = data, var = var, type = stats)
 		# if only one variable is specified, 'stats' should not be named:
 		if(!is.null(var) && length(var) == 1)	stats <- stats[[var]]
 	}
+	
+	# add default statistics if geometric mean/sd are requested
+	statsCall <- sapply(unlist(stats, recursive = TRUE), deparse)
+	statsExtra <- c(
+	  statsExtra,
+	  if(any(grepl("statGeomMean", statsCall, ignore.case = TRUE)) && 
+	     !"statGeomMean" %in% names(statsExtra))
+	    list(statGeomMean = inTextSummaryTable::geomMean),
+	  if(any(grepl("statGeomSD", statsCall, ignore.case = TRUE)) &&
+	    !"statGeomSD" %in% names(statsExtra))
+	    list(statGeomSD = inTextSummaryTable::geomSD)
+	)
 	
 	# check if 'varIncludeTotal' is not default
 	if(!(is.logical(varIncludeTotal) && length(varIncludeTotal) == 1 && !varIncludeTotal)){
